@@ -12,10 +12,9 @@ alwaysApply: false
 * **`lib/src/`**: Standardowy katalog dla kodu źródłowego. Używany do grupowania głównej logiki aplikacji.
 * **`lib/src/features/`**: Katalog, w którym kod aplikacji jest dzielony na niezależne moduły funkcjonalne.
 * **`lib/src/features/[nazwa_funkcjonalnosci]/presentation/`**: Zawiera kod UI (widżety i ekrany) dla danej funkcjonalności. Te widżety zależą od Providerów z tej lub innych funkcjonalności, używając `ref.watch`, `ref.read` itp.
-* **`lib/src/features/[nazwa_funkcjonalnosci]/application/`**: Zawiera logikę biznesową specyficzną dla funkcjonalności, często w postaci klas `Notifier` lub `AsyncNotifier`, które są dostarczane przez Providery.
 * **`lib/src/features/[nazwa_funkcjonalnosci]/domain/`**: (wzorzec DDD) Modele danych i logika domenowa niezależna od implementacji.
-* **`lib/src/features/[nazwa_funkcjonalnosci]/infrastructure/`**: Zawiera implementacje serwisów (np. klienta API, repozytorium bazy danych), które służą jako źródła danych dla warstwy `application`.
-* **`lib/src/features/[nazwa_funkcjonalnosci]/providers/`**: Katalog przechowujący definicje Riverpod Providerów, które udostępniają stan, logikę z `application` lub serwisy z `infrastructure` do warstwy `presentation`.
+* **`lib/src/features/[nazwa_funkcjonalnosci]/data/`**: Zawiera implementacje serwisów (np. klienta API, repozytorium bazy danych), które służą jako źródła danych dla warstwy `application`.
+* **`lib/src/features/[nazwa_funkcjonalnosci]/providers/`**: Katalog przechowujący definicje Riverpod Providerów, które udostępniają stan, logikę z `domain` lub serwisy z `data` do warstwy `presentation`.
 * **`lib/src/common/`**: Katalog dla elementów współdzielonych w całej aplikacji (widżety, helpery, globalne serwisy/proidery).
 * **`lib/src/models/`**: Definicje globalnych modeli danych (np. klas danych, enumów).
 * **`lib/src/services/`**: Abstrakcje lub implementacje globalnych serwisów (np. `ApiService`), które mogą być dostarczane poprzez Providerów z `common/providers`.
