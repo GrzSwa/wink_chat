@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wink_chat/src/common/widgets/app_logo.dart';
 import 'package:wink_chat/src/features/auth/presentation/screens/login_screen.dart';
 import 'package:wink_chat/src/features/auth/presentation/screens/registration_screen.dart';
 
@@ -20,21 +21,39 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('WinkChat'), centerTitle: true),
-      body: Center(
+      body: Container(
+        color: Color.fromRGBO(222, 103, 108, 1),
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 15.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('WinkChat', style: Theme.of(context).textTheme.headlineMedium),
-            const SizedBox(height: 48),
-            ElevatedButton(
-              onPressed: () => _navigateToRegistration(context),
-              child: const Text('Zaczynajmy'),
-            ),
-            const SizedBox(height: 16),
-            TextButton(
-              onPressed: () => _navigateToLogin(context),
-              child: const Text('Zaloguj się'),
+            Expanded(child: AppLogo(width: 300)),
+            Padding(
+              padding: EdgeInsets.only(bottom: 40.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                spacing: 10,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => _navigateToRegistration(context),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 15.0),
+                    ),
+                    child: const Text('Zaczynajmy'),
+                  ),
+                  TextButton(
+                    onPressed: () => _navigateToLogin(context),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 15.0),
+                    ),
+                    child: const Text(
+                      'Zaloguj się',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

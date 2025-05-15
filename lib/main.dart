@@ -19,7 +19,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'WinkChat',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Color.fromRGBO(222, 103, 108, 1),
+        ),
       ),
       home: const WelcomeScreen(),
     );
