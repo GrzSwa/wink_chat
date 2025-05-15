@@ -27,6 +27,7 @@ class RegistrationScreen extends StatelessWidget {
                 child: Column(
                   spacing: 25,
                   children: [
+                    AppImages(imagesNumber: 7, width: 200),
                     Text(
                       "Rejestracja",
                       style: TextStyle(
@@ -35,7 +36,6 @@ class RegistrationScreen extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    AppImages(imagesNumber: 7, width: 200),
                     Column(
                       spacing: 20,
                       children: [EmailInput(), PasswordInput()],

@@ -1,0 +1,57 @@
+import 'package:flutter/material.dart';
+import 'package:wink_chat/src/common/widgets/app_images.dart';
+
+class ImagesGrid extends StatelessWidget {
+  const ImagesGrid({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 1.0,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.all(4),
+                    child: AppImages(imagesNumber: 6, fit: BoxFit.cover),
+                  ),
+                ),
+
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.all(4),
+                    child: AppImages(imagesNumber: 5, fit: BoxFit.cover),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.all(4),
+                    child: AppImages(imagesNumber: 7, fit: BoxFit.cover),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.all(4),
+                    child: AppImages(imagesNumber: 4, fit: BoxFit.cover),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
