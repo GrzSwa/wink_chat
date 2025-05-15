@@ -1,0 +1,25 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+### Aspekty Techniczne - WinkChat
+
+#### Frontend (Aplikacja Mobilna)
+
+-   Framework: Flutter 3.29.3
+-   Język Programowania: Dart 3.7.2
+-   Główne Biblioteki/Pakiety:
+    -   `supabase_flutter` 2.9.0: Podstawowy plugin Supabase dla Fluttera
+    -   `dio` 5.8.0 Pakiet do obsługi zapytań HTTP
+    -   `riverpod` 2.6.1 framework do zarządzania stanem i wstrzykiwania zależności w aplikacjach Flutter
+
+#### Backend
+
+-   Platforma: Supabase
+-   Baza Danych: Postgres SQL
+-   Kluczowe usługi Supabase:
+    -   Supabase Authentication (System autentykacji użytkowników)
+    -   Supabase Realtime Database (Obsługa czatu w czasie rzeczywistym)
+    -   Supabase Edge Functions (Logika backendu)
+
