@@ -1,66 +1,111 @@
 import 'package:flutter/material.dart';
-import 'package:wink_chat/src/common/widgets/app_images.dart';
 import 'package:wink_chat/src/common/widgets/app_logo.dart';
-import 'package:wink_chat/src/features/auth/presentation/widgets/email_input.dart';
-import 'package:wink_chat/src/features/auth/presentation/widgets/password_input.dart';
+import 'package:wink_chat/src/common/widgets/field.dart';
+import 'package:wink_chat/src/common/widgets/primary_button.dart';
+import 'package:wink_chat/src/features/auth/presentation/widgets/footer.dart';
+import 'package:wink_chat/src/features/auth/presentation/screens/login_screen.dart';
 
 class RegistrationScreen extends StatelessWidget {
   const RegistrationScreen({super.key});
 
+  void _navigateToLogin(BuildContext context) {
+    Navigator.of(
+      context,
+    ).pushReplacement(MaterialPageRoute(builder: (_) => const LoginScreen()));
+  }
+
   @override
   Widget build(BuildContext context) {
+    TextEditingController _emailController = TextEditingController();
+    TextEditingController _passwordController = TextEditingController();
+    TextEditingController _nickNameController = TextEditingController();
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: AppLogo(width: 120),
+        title: AppLogo(width: 120, isDark: false),
         centerTitle: true,
-        backgroundColor: Color.fromRGBO(222, 103, 108, 1),
+        backgroundColor: Colors.white,
       ),
-      body: Container(
-        color: Color.fromRGBO(222, 103, 108, 1),
-        padding: EdgeInsets.symmetric(horizontal: 15),
-        child: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(top: 25),
-                child: Column(
-                  spacing: 25,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 25),
+            child: Column(
+              spacing: 20,
+              children: [
+                Text(
+                  "Rejestracja",
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.w600),
+                  textAlign: TextAlign.center,
+                  textScaler: TextScaler.linear(1.0),
+                ),
+                Field.email(
+                  controller: _emailController,
+                  placeholder: "Wprowadź adres email",
+                ),
+
+                Field.password(
+                  controller: _passwordController,
+                  label: "Hasło",
+                  placeholder: "Wprowadź hasło",
+                ),
+
+                Field.input(
+                  controller: _nickNameController,
+                  label: "Nazwa użytkownika",
+                  placeholder: "Wprowadź nazwę użytkownika",
+                ),
+
+                Field.radio(
+                  options: ["Mężczyzna", "Kobieta", "Inna"],
+                  selectedValue: "Mężczyzna",
+                  label: "Płeć",
+                  onChanged: (value) {},
+                ),
+
+                Field.select(
+                  options: ["Polska", "Świętokrzyskie", "Podkarpackie"],
+                  selectedValue: "Polska",
+                  label: "Wybierz swoją lokalizację",
+                  onChanged: (onChanged) {},
+                ),
+
+                PrimaryButton(
+                  onPressed: () {},
+                  width: double.infinity,
+                  child: Text("Zarejestruj", style: TextStyle(fontSize: 18)),
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 4,
                   children: [
-                    AppImages(imagesNumber: 7, width: 200),
                     Text(
-                      "Rejestracja",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
+                      "Masz już konto?",
+                      style: TextStyle(color: Colors.black54),
                     ),
-                    Column(
-                      spacing: 20,
-                      children: [EmailInput(), PasswordInput()],
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      onPressed: () => _navigateToLogin(context),
+                      child: Text(
+                        "Zaloguj się",
+                        style: TextStyle(
+                          color: Colors.black87,
+                          fontWeight: FontWeight.w600,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
                     ),
                   ],
                 ),
-              ),
+                Footer(),
+              ],
             ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 40.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                spacing: 10,
-                children: [
-                  ElevatedButton(
-                    onPressed: () => {},
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 15.0),
-                    ),
-                    child: const Text('Zarejestruj się'),
-                  ),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
