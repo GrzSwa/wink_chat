@@ -18,14 +18,14 @@ class ImagesGrid extends StatelessWidget {
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.all(4),
-                    child: AppImages(imagesNumber: 6, fit: BoxFit.cover),
+                    child: AppImages(imagesNumber: 2, fit: BoxFit.cover),
                   ),
                 ),
 
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.all(4),
-                    child: AppImages(imagesNumber: 5, fit: BoxFit.cover),
+                    child: AppImages(imagesNumber: 1, fit: BoxFit.cover),
                   ),
                 ),
               ],
@@ -38,13 +38,13 @@ class ImagesGrid extends StatelessWidget {
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.all(4),
-                    child: AppImages(imagesNumber: 7, fit: BoxFit.cover),
+                    child: AppImages(imagesNumber: 3, fit: BoxFit.cover),
                   ),
                 ),
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.all(4),
-                    child: AppImages(imagesNumber: 4, fit: BoxFit.cover),
+                    child: AppImages(imagesNumber: 0, fit: BoxFit.cover),
                   ),
                 ),
               ],
