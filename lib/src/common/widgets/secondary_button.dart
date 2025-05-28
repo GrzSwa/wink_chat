@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class PrimaryButton extends StatelessWidget {
+class SecondaryButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final Widget child;
   final double? width;
   final double? height;
   final EdgeInsetsGeometry? padding;
 
-  const PrimaryButton({
+  const SecondaryButton({
     Key? key,
     required this.onPressed,
     required this.child,
@@ -24,12 +24,15 @@ class PrimaryButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color.fromRGBO(222, 103, 108, 1),
-          foregroundColor: Colors.white,
+          backgroundColor: Colors.white,
+          foregroundColor: const Color.fromRGBO(222, 103, 108, 1),
           padding:
               padding ??
               const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+            side: const BorderSide(color: Colors.black12, width: 2),
+          ),
         ),
         child: child,
       ),
