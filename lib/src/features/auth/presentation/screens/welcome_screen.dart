@@ -4,6 +4,7 @@ import 'package:wink_chat/src/common/widgets/primary_button.dart';
 import 'package:wink_chat/src/common/widgets/secondary_button.dart';
 import 'package:wink_chat/src/features/auth/presentation/screens/login_screen.dart';
 import 'package:wink_chat/src/features/auth/presentation/screens/registration_screen.dart';
+import 'package:wink_chat/src/features/auth/presentation/widgets/footer.dart';
 import 'package:wink_chat/src/features/auth/presentation/widgets/images_grid.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -24,16 +25,17 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: AppLogo(width: 200, isDark: false),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+      ),
       body: SafeArea(
-        top: false,
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 25),
           color: Colors.white,
           child: Column(
             children: [
-              Expanded(
-                child: Center(child: AppLogo(width: 200, isDark: false)),
-              ),
               Expanded(flex: 2, child: Center(child: ImagesGrid())),
               SizedBox(height: 30),
               Expanded(
@@ -94,42 +96,7 @@ class WelcomeScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 20),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            spacing: 5,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                spacing: 10,
-                                children: [
-                                  AppLogo(
-                                    width: 25,
-                                    isDark: false,
-                                    isSmall: true,
-                                  ),
-                                  Text(
-                                    "Anonimowość. Bezpieczeństwo. Prostota",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w800,
-                                      color: Colors.black45,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                "© 2025 WinkChat",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black26,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      Expanded(child: Footer()),
                     ],
                   ),
                 ),
