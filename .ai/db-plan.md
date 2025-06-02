@@ -16,6 +16,13 @@
     - `createdAt`: timestamp (wymagane)
     - `updatedAt`: timestamp (wymagane, auto-aktualizacja)
 
+- Kolekcja: `explore`
+
+  - Dokument ID: Nazwa lokalizacji (string, np. "Warszawa", "Mazowieckie", "Polska")
+  - Pola:
+    - `type`: string (wymagane, dopuszczalne wartości: "city", "country", "voivodeship")
+    - `activeUsers`: array of strings (wymagane) - Lista UIDów aktywnych użytkowników w tej lokalizacji
+
 - Kolekcja: `chats`
 
   - Dokument ID: Auto-generowane przez Firestore (string)
