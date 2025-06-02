@@ -114,6 +114,8 @@ class ExploreScreen extends ConsumerWidget {
 
   String _getStatusText(ChatStatus status) {
     switch (status) {
+      case ChatStatus.none:
+        return '';
       case ChatStatus.pending:
         return 'Wysłano prośbę o rozmowę.';
       case ChatStatus.active:
@@ -127,6 +129,8 @@ class ExploreScreen extends ConsumerWidget {
 
   Color _getStatusColor(ChatStatus status) {
     switch (status) {
+      case ChatStatus.none:
+        return Colors.black;
       case ChatStatus.pending:
         return Colors.blue;
       case ChatStatus.active:

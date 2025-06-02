@@ -43,7 +43,7 @@ class ChatRequestScreen extends ConsumerWidget {
                       child: const Text('Przejdź do rozmowy'),
                     ),
                   ],
-                  if (status == ChatStatus.pending) ...[
+                  if (status == ChatStatus.none) ...[
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () async {
@@ -82,6 +82,9 @@ class ChatRequestScreen extends ConsumerWidget {
                       child: const Text('Wyślij'),
                     ),
                   ],
+                  if (status == ChatStatus.pending) ...[
+                    const SizedBox(height: 20),
+                  ],
                 ],
               ),
             ),
@@ -93,6 +96,8 @@ class ChatRequestScreen extends ConsumerWidget {
 
   String _getStatusMessage(ChatStatus status) {
     switch (status) {
+      case ChatStatus.none:
+        return 'Wyślij prośbę o nawiązanie rozmowy';
       case ChatStatus.pending:
         return 'Wysłano prośbę o rozmowę.\nCzekaj na odpowiedź użytkownika.';
       case ChatStatus.active:
