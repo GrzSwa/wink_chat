@@ -1,13 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wink_chat/src/common/widgets/app_logo.dart';
 import 'package:wink_chat/src/common/widgets/field.dart';
 import 'package:wink_chat/src/common/widgets/primary_button.dart';
 import 'package:wink_chat/src/features/auth/presentation/widgets/footer.dart';
 import 'package:wink_chat/src/common/widgets/main_app_screen.dart';
 import 'package:wink_chat/src/features/auth/presentation/screens/registration_screen.dart';
+import 'package:wink_chat/src/features/auth/presentation/providers/auth_provider.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends ConsumerState<LoginScreen> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   void _navigateToMainApp(BuildContext context) {
     Navigator.of(context).pushAndRemoveUntil(
@@ -22,10 +39,26 @@ class LoginScreen extends StatelessWidget {
     ).push(MaterialPageRoute(builder: (_) => const RegistrationScreen()));
   }
 
+  Future<void> _login() async {
+    if (_emailController.text.isNotEmpty &&
+        _passwordController.text.isNotEmpty) {
+      final result = await ref
+          .read(authControllerProvider.notifier)
+          .signIn(
+            email: _emailController.text.trim(),
+            password: _passwordController.text,
+          );
+
+      if (!result.hasError) {
+        _navigateToMainApp(context);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController _emailController = TextEditingController();
-    TextEditingController _passwordController = TextEditingController();
+    final authState = ref.watch(authControllerProvider);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -41,14 +74,14 @@ class LoginScreen extends StatelessWidget {
                 MediaQuery.of(context).padding.top -
                 kToolbarHeight,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25),
+              padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
                     spacing: 20,
                     children: [
-                      Text(
+                      const Text(
                         "Zaloguj się do swojego konta",
                         style: TextStyle(
                           fontSize: 32,
@@ -57,8 +90,7 @@ class LoginScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                         textScaler: TextScaler.linear(1.0),
                       ),
-
-                      Text(
+                      const Text(
                         "Kontynuuj swoją przygodę z anonimowym czatem. Wprowadź swój adres e-mail i hasło.",
                         style: TextStyle(
                           fontSize: 16,
@@ -68,7 +100,6 @@ class LoginScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                         textScaler: TextScaler.linear(1.0),
                       ),
-
                       Field.email(
                         controller: _emailController,
                         placeholder: "Wprowadź adres email",
@@ -78,8 +109,7 @@ class LoginScreen extends StatelessWidget {
                         label: "Hasło",
                         placeholder: "Wprowadź hasło",
                       ),
-
-                      Align(
+                      const Align(
                         alignment: Alignment.centerRight,
                         child: Text(
                           "Zapomniałeś hasła?",
@@ -90,15 +120,28 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       PrimaryButton(
-                        onPressed: () => _navigateToMainApp(context),
+                        onPressed: authState.isLoading ? null : _login,
                         width: double.infinity,
-                        child: Text("Zaloguj", style: TextStyle(fontSize: 18)),
+                        child:
+                            authState.isLoading
+                                ? const CircularProgressIndicator()
+                                : const Text(
+                                  "Zaloguj",
+                                  style: TextStyle(fontSize: 18),
+                                ),
                       ),
-
+                      if (authState.hasError)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Text(
+                            authState.error.toString(),
+                            style: const TextStyle(color: Colors.red),
+                          ),
+                        ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             "Nie masz jeszcze konta?",
                             style: TextStyle(color: Colors.black54),
                           ),
@@ -109,7 +152,7 @@ class LoginScreen extends StatelessWidget {
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
                             onPressed: () => _navigateToRegistration(context),
-                            child: Text(
+                            child: const Text(
                               "Zarejestruj się",
                               style: TextStyle(
                                 color: Colors.black87,
@@ -122,8 +165,8 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
-                  Footer(),
+                  const SizedBox(height: 20),
+                  const Footer(),
                 ],
               ),
             ),

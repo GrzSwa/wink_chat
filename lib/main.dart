@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wink_chat/src/features/auth/presentation/screens/welcome_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:wink_chat/src/common/widgets/main_app_screen.dart';
+import 'package:wink_chat/src/features/auth/presentation/providers/auth_provider.dart';
+import 'firebase_options.dart';
 
-void main() {
-  // TODO: Initialize Firebase
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authStateProvider);
+
     return MaterialApp(
       title: 'WinkChat',
       theme: ThemeData(
@@ -23,7 +26,16 @@ class MyApp extends StatelessWidget {
           seedColor: Color.fromRGBO(222, 103, 108, 1),
         ),
       ),
-      home: const WelcomeScreen(),
+      home: authState.when(
+        data:
+            (user) =>
+                user != null ? const MainAppScreen() : const WelcomeScreen(),
+        loading:
+            () => const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            ),
+        error: (error, stack) => const WelcomeScreen(),
+      ),
     );
   }
 }

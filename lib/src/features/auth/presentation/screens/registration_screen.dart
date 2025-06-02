@@ -1,12 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wink_chat/src/common/widgets/app_logo.dart';
 import 'package:wink_chat/src/common/widgets/field.dart';
 import 'package:wink_chat/src/common/widgets/primary_button.dart';
 import 'package:wink_chat/src/features/auth/presentation/widgets/footer.dart';
 import 'package:wink_chat/src/features/auth/presentation/screens/login_screen.dart';
+import 'package:wink_chat/src/features/auth/presentation/providers/auth_provider.dart';
 
-class RegistrationScreen extends StatelessWidget {
+class RegistrationScreen extends ConsumerStatefulWidget {
   const RegistrationScreen({super.key});
+
+  @override
+  ConsumerState<RegistrationScreen> createState() => _RegistrationScreenState();
+}
+
+class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _nickNameController = TextEditingController();
+  String _selectedGender = "Mężczyzna";
+  String _selectedLocation = "Polska";
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _nickNameController.dispose();
+    super.dispose();
+  }
 
   void _navigateToLogin(BuildContext context) {
     Navigator.of(
@@ -14,11 +35,30 @@ class RegistrationScreen extends StatelessWidget {
     ).pushReplacement(MaterialPageRoute(builder: (_) => const LoginScreen()));
   }
 
+  Future<void> _register() async {
+    if (_emailController.text.isNotEmpty &&
+        _passwordController.text.isNotEmpty &&
+        _nickNameController.text.isNotEmpty) {
+      await ref
+          .read(authControllerProvider.notifier)
+          .signUp(
+            email: _emailController.text.trim(),
+            password: _passwordController.text,
+          );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController _emailController = TextEditingController();
-    TextEditingController _passwordController = TextEditingController();
-    TextEditingController _nickNameController = TextEditingController();
+    final authState = ref.watch(authControllerProvider);
+
+    // Listen to auth state changes
+    ref.listen(authStateProvider, (previous, next) {
+      if (next.value != null) {
+        _navigateToLogin(context);
+      }
+    });
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -29,11 +69,11 @@ class RegistrationScreen extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25),
+            padding: const EdgeInsets.symmetric(horizontal: 25),
             child: Column(
               spacing: 20,
               children: [
-                Text(
+                const Text(
                   "Rejestracja",
                   style: TextStyle(fontSize: 32, fontWeight: FontWeight.w600),
                   textAlign: TextAlign.center,
@@ -43,44 +83,63 @@ class RegistrationScreen extends StatelessWidget {
                   controller: _emailController,
                   placeholder: "Wprowadź adres email",
                 ),
-
                 Field.password(
                   controller: _passwordController,
                   label: "Hasło",
                   placeholder: "Wprowadź hasło",
                 ),
-
                 Field.input(
                   controller: _nickNameController,
                   label: "Nazwa użytkownika",
                   placeholder: "Wprowadź nazwę użytkownika",
                 ),
-
                 Field.radio(
-                  options: ["Mężczyzna", "Kobieta", "Inna"],
-                  selectedValue: "Mężczyzna",
+                  options: const ["Mężczyzna", "Kobieta", "Inna"],
+                  selectedValue: _selectedGender,
                   label: "Płeć",
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    if (value != null) {
+                      setState(() {
+                        _selectedGender = value;
+                      });
+                    }
+                  },
                 ),
-
                 Field.select(
-                  options: ["Polska", "Świętokrzyskie", "Podkarpackie"],
-                  selectedValue: "Polska",
+                  options: const ["Polska", "Świętokrzyskie", "Podkarpackie"],
+                  selectedValue: _selectedLocation,
                   label: "Wybierz swoją lokalizację",
-                  onChanged: (onChanged) {},
+                  onChanged: (value) {
+                    if (value != null) {
+                      setState(() {
+                        _selectedLocation = value;
+                      });
+                    }
+                  },
                 ),
-
                 PrimaryButton(
-                  onPressed: () {},
+                  onPressed: authState.isLoading ? null : _register,
                   width: double.infinity,
-                  child: Text("Zarejestruj", style: TextStyle(fontSize: 18)),
+                  child:
+                      authState.isLoading
+                          ? const CircularProgressIndicator()
+                          : const Text(
+                            "Zarejestruj",
+                            style: TextStyle(fontSize: 18),
+                          ),
                 ),
-
+                if (authState.hasError)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: Text(
+                      authState.error.toString(),
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  spacing: 4,
                   children: [
-                    Text(
+                    const Text(
                       "Masz już konto?",
                       style: TextStyle(color: Colors.black54),
                     ),
@@ -91,7 +150,7 @@ class RegistrationScreen extends StatelessWidget {
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
                       onPressed: () => _navigateToLogin(context),
-                      child: Text(
+                      child: const Text(
                         "Zaloguj się",
                         style: TextStyle(
                           color: Colors.black87,
@@ -102,7 +161,7 @@ class RegistrationScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                Footer(),
+                const Footer(),
               ],
             ),
           ),
