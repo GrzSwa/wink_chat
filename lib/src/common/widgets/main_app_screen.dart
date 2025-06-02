@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wink_chat/src/features/account/presentation/screens/account_screen.dart';
-import 'package:wink_chat/src/features/chat/presentation/screens/chat_screen.dart';
+import 'package:wink_chat/src/features/explore/presentation/screens/explore_screen.dart';
 import 'package:wink_chat/src/features/user_chats/presentation/screens/user_chats_screen.dart';
 
 class MainAppScreen extends StatefulWidget {
@@ -14,7 +14,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    ChatScreen(),
+    ExploreScreen(),
     UserChatsScreen(),
     AccountScreen(),
   ];
@@ -32,8 +32,8 @@ class _MainAppScreenState extends State<MainAppScreen> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble_outline),
-            label: 'Czatuj',
+            icon: Icon(Icons.explore_outlined),
+            label: 'W pobliżu',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.chat_outlined),
