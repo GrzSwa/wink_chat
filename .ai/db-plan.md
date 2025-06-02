@@ -25,14 +25,24 @@
 
 - Kolekcja: `chats`
 
-  - Dokument ID: Auto-generowane przez Firestore (string)
+  - Dokument ID: UID użytkownika z Firebase Authentication (string)
   - Pola:
-    - `participantIds`: array of strings (wymagane, zawiera 2 UIDy uczestników)
-    - `status`: string (wymagane, dopuszczalne wartości: "pending", "active", "rejected", "ended")
-    - `initiatorId`: string (wymagane, UID użytkownika wysyłającego prośbę)
-    - `createdAt`: timestamp (wymagane) - Czas wysłania prośby
-    - `updatedAt`: timestamp (wymagane, auto-aktualizacja)
-    - `endedAt`: timestamp (opcjonalne) - Czas zakończenia rozmowy (dla celów archiwizacji)
+    - `participantId`: mapa (wymagane, UID drugiego użytkownika rozmowy)
+      - `messageID`: string (wymagane, ID rozmowy)
+      - `status`: string (wymagane, dopuszczalne wartości: "pending", "active", "rejected", "ended")
+      - `initiatorId`: string (wymagane, UID użytkownika wysyłającego prośbę)
+      - `createdAt`: timestamp (wymagane) - Czas wysłania prośby
+      - `updatedAt`: timestamp (wymagane, auto-aktualizacja)
+      - `endedAt`: timestamp (opcjonalne) - Czas zakończenia rozmowy (dla celów archiwizacji)
+
+- Kolekcja: `messages`
+
+  - Dokument ID: messageID odpowiadający z kolekcji chats
+  - Pola:
+    - `from`: string (wymagane, UID nadawcy)
+    - `to`: string (wymagane, UID odbiorcy)
+    - `message`: string (wymagane, treść wiadomości)
+    - `time`: timestamp (wymagane, czas wysłania wiadomości)
 
 - Kolekcja: `reports`
 
