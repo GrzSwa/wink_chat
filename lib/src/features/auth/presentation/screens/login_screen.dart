@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:wink_chat/src/common/widgets/app_images.dart';
 import 'package:wink_chat/src/common/widgets/app_logo.dart';
-import 'package:wink_chat/src/features/auth/presentation/widgets/email_input.dart';
-import 'package:wink_chat/src/features/auth/presentation/widgets/password_input.dart';
+import 'package:wink_chat/src/common/widgets/field.dart';
+import 'package:wink_chat/src/common/widgets/primary_button.dart';
+import 'package:wink_chat/src/features/auth/presentation/widgets/footer.dart';
 import 'package:wink_chat/src/common/widgets/main_app_screen.dart';
+import 'package:wink_chat/src/features/auth/presentation/screens/registration_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -11,65 +12,122 @@ class LoginScreen extends StatelessWidget {
   void _navigateToMainApp(BuildContext context) {
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (_) => const MainAppScreen()),
-      (Route<dynamic> route) =>
-          false, // This predicate removes all previous routes
+      (Route<dynamic> route) => false,
     );
+  }
+
+  void _navigateToRegistration(BuildContext context) {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => const RegistrationScreen()));
   }
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController _emailController = TextEditingController();
+    TextEditingController _passwordController = TextEditingController();
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: AppLogo(width: 120),
+        title: AppLogo(width: 120, isDark: false),
         centerTitle: true,
-        backgroundColor: Color.fromRGBO(222, 103, 108, 1),
+        backgroundColor: Colors.white,
       ),
-      body: Container(
-        color: Color.fromRGBO(222, 103, 108, 1),
-        padding: EdgeInsets.symmetric(horizontal: 15),
-        child: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(top: 25),
-                child: Column(
-                  spacing: 25,
-                  children: [
-                    AppImages(imagesNumber: 6, width: 200),
-                    Text(
-                      "Logowanie",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Column(
-                      spacing: 20,
-                      children: [EmailInput(), PasswordInput()],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 40.0),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: SizedBox(
+            height:
+                MediaQuery.of(context).size.height -
+                MediaQuery.of(context).padding.top -
+                kToolbarHeight,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                spacing: 10,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ElevatedButton(
-                    onPressed: () => {_navigateToMainApp(context)},
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 15.0),
-                    ),
-                    child: const Text('Zaloguj się'),
+                  Column(
+                    spacing: 20,
+                    children: [
+                      Text(
+                        "Zaloguj się do swojego konta",
+                        style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        textAlign: TextAlign.center,
+                        textScaler: TextScaler.linear(1.0),
+                      ),
+
+                      Text(
+                        "Kontynuuj swoją przygodę z anonimowym czatem. Wprowadź swój adres e-mail i hasło.",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black54,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        textAlign: TextAlign.center,
+                        textScaler: TextScaler.linear(1.0),
+                      ),
+
+                      Field.email(
+                        controller: _emailController,
+                        placeholder: "Wprowadź adres email",
+                      ),
+                      Field.password(
+                        controller: _passwordController,
+                        label: "Hasło",
+                        placeholder: "Wprowadź hasło",
+                      ),
+
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          "Zapomniałeś hasła?",
+                          style: TextStyle(
+                            color: Colors.black54,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      PrimaryButton(
+                        onPressed: () => _navigateToMainApp(context),
+                        width: double.infinity,
+                        child: Text("Zaloguj", style: TextStyle(fontSize: 18)),
+                      ),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Nie masz jeszcze konta?",
+                            style: TextStyle(color: Colors.black54),
+                          ),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              minimumSize: Size.zero,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
+                            onPressed: () => _navigateToRegistration(context),
+                            child: Text(
+                              "Zarejestruj się",
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w600,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
+                  SizedBox(height: 20),
+                  Footer(),
                 ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );
