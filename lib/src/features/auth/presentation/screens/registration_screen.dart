@@ -6,6 +6,7 @@ import 'package:wink_chat/src/common/widgets/primary_button.dart';
 import 'package:wink_chat/src/features/auth/presentation/widgets/footer.dart';
 import 'package:wink_chat/src/features/auth/presentation/screens/login_screen.dart';
 import 'package:wink_chat/src/features/auth/presentation/providers/auth_provider.dart';
+import 'package:wink_chat/src/features/auth/data/repositories/firebase_user_repository.dart';
 
 class RegistrationScreen extends ConsumerStatefulWidget {
   const RegistrationScreen({super.key});
@@ -18,8 +19,10 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _nickNameController = TextEditingController();
-  String _selectedGender = "Mężczyzna";
-  String _selectedLocation = "Polska";
+  String _selectedGender = "M";
+  String _selectedLocationType = "country";
+  String _selectedLocationValue = "Polska";
+  final _userRepository = FirebaseUserRepository();
 
   @override
   void dispose() {
@@ -39,12 +42,27 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     if (_emailController.text.isNotEmpty &&
         _passwordController.text.isNotEmpty &&
         _nickNameController.text.isNotEmpty) {
-      await ref
+      final result = await ref
           .read(authControllerProvider.notifier)
           .signUp(
             email: _emailController.text.trim(),
             password: _passwordController.text,
           );
+
+      if (!result.hasError) {
+        final authUser = ref.read(authStateProvider).value;
+        if (authUser != null) {
+          await _userRepository.createUserProfile(
+            authUser: authUser,
+            pseudonim: _nickNameController.text.trim(),
+            gender: _selectedGender,
+            location: {
+              'type': _selectedLocationType,
+              'value': _selectedLocationValue,
+            },
+          );
+        }
+      }
     }
   }
 
@@ -52,7 +70,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authControllerProvider);
 
-    // Listen to auth state changes
     ref.listen(authStateProvider, (previous, next) {
       if (next.value != null) {
         _navigateToLogin(context);
@@ -94,7 +111,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                   placeholder: "Wprowadź nazwę użytkownika",
                 ),
                 Field.radio(
-                  options: const ["Mężczyzna", "Kobieta", "Inna"],
+                  options: const ["M", "F"],
                   selectedValue: _selectedGender,
                   label: "Płeć",
                   onChanged: (value) {
@@ -107,12 +124,14 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                 ),
                 Field.select(
                   options: const ["Polska", "Świętokrzyskie", "Podkarpackie"],
-                  selectedValue: _selectedLocation,
+                  selectedValue: _selectedLocationValue,
                   label: "Wybierz swoją lokalizację",
                   onChanged: (value) {
                     if (value != null) {
                       setState(() {
-                        _selectedLocation = value;
+                        _selectedLocationValue = value;
+                        _selectedLocationType =
+                            value == "Polska" ? "country" : "voivodeship";
                       });
                     }
                   },
