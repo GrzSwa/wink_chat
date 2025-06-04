@@ -15,6 +15,7 @@ class FirebaseUserRepository {
   }) async {
     final now = FieldValue.serverTimestamp();
 
+    // Create user profile in users collection
     await _firestore.collection('users').doc(authUser.id).set({
       'uid': authUser.id,
       'pseudonim': pseudonim,
@@ -23,6 +24,30 @@ class FirebaseUserRepository {
       'lastSeen': now,
       'createdAt': now,
       'updatedAt': now,
+    });
+
+    // Add user to explore collection based on their location
+    final locationDoc = _firestore.collection('explore').doc(location['value']);
+
+    await _firestore.runTransaction((transaction) async {
+      final docSnapshot = await transaction.get(locationDoc);
+
+      if (docSnapshot.exists) {
+        // Update existing document
+        final currentActiveUsers = List<String>.from(
+          docSnapshot.data()?['activeUsers'] ?? [],
+        );
+        if (!currentActiveUsers.contains(authUser.id)) {
+          currentActiveUsers.add(authUser.id);
+          transaction.update(locationDoc, {'activeUsers': currentActiveUsers});
+        }
+      } else {
+        // Create new document
+        transaction.set(locationDoc, {
+          'type': location['type'],
+          'activeUsers': [authUser.id],
+        });
+      }
     });
   }
 }

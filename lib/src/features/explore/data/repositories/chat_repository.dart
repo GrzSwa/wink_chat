@@ -26,7 +26,7 @@ class ChatRepository {
         'createdAt': now,
         'updatedAt': now,
       },
-    });
+    }, SetOptions(merge: true));
 
     // Create chat document for target user
     await _firestore.collection('chats').doc(targetUserId).set({
@@ -37,7 +37,7 @@ class ChatRepository {
         'createdAt': now,
         'updatedAt': now,
       },
-    });
+    }, SetOptions(merge: true));
   }
 
   Future<void> respondToChatRequest({
@@ -48,23 +48,64 @@ class ChatRepository {
     final now = DateTime.now();
     final status = accepted ? ChatStatus.active.name : ChatStatus.rejected.name;
 
+    // Get the chat data to retrieve messageId
+    final currentUserDoc =
+        await _firestore.collection('chats').doc(currentUserId).get();
+    final chatData =
+        (currentUserDoc.data() ?? {})[initiatorId] as Map<String, dynamic>?;
+
+    if (chatData == null) {
+      throw Exception('Chat data not found');
+    }
+
+    final messageId = chatData['messageID'] as String;
+
     // Update chat document for current user
-    await _firestore.collection('chats').doc(currentUserId).update({
-      '$initiatorId.status': status,
-      '$initiatorId.updatedAt': now,
-    });
+    await _firestore.collection('chats').doc(currentUserId).set({
+      initiatorId: {
+        'messageID': messageId,
+        'status': status,
+        'initiatorId': initiatorId,
+        'updatedAt': now,
+      },
+    }, SetOptions(merge: true));
 
     // Update chat document for initiator
-    await _firestore.collection('chats').doc(initiatorId).update({
-      '$currentUserId.status': status,
-      '$currentUserId.updatedAt': now,
-    });
+    await _firestore.collection('chats').doc(initiatorId).set({
+      currentUserId: {
+        'messageID': messageId,
+        'status': status,
+        'initiatorId': initiatorId,
+        'updatedAt': now,
+      },
+    }, SetOptions(merge: true));
+
+    // If accepted, create the messages document
+    if (accepted) {
+      await _firestore.collection('messages').doc(messageId).set({
+        'participants': [currentUserId, initiatorId],
+        'createdAt': now,
+        'updatedAt': now,
+      });
+
+      // Create messages subcollection
+      await _firestore
+          .collection('messages')
+          .doc(messageId)
+          .collection('messages')
+          .add({
+            'from': currentUserId,
+            'to': initiatorId,
+            'message': 'Rozmowa rozpoczęta!',
+            'time': now,
+          });
+    }
   }
 
   Stream<List<Map<String, dynamic>>> getPendingChatRequests(String userId) {
     return _firestore.collection('chats').doc(userId).snapshots().map((doc) {
       if (!doc.exists) return [];
-      final data = doc.data() as Map<String, dynamic>?;
+      final data = doc.data();
       if (data == null) return [];
 
       final pendingRequests = <Map<String, dynamic>>[];
