@@ -20,3 +20,40 @@ alwaysApply: false
 * **`lib/src/services/`**: Abstrakcje lub implementacje globalnych serwisów (np. `ApiService`), które mogą być dostarczane poprzez Providerów z `common/providers`.
 
 * **`test/`**: Katalog na pliki testowe. Struktura testów często odzwierciedla strukturę `lib`, aby łatwo znaleźć testy dla danego komponentu. Testowanie Providerów i Notifierów w izolacji jest kluczową zaletą Riverpod.
+
+**Aktualna struktura projektu:**
+
+```
+lib/
+├── main.dart                 # Główny plik aplikacji
+├── src/
+│   ├── features/
+│   │   ├── account/         # Funkcjonalność zarządzania kontem
+│   │   │   ├── data/
+│   │   │   ├── domain/
+│   │   │   └── presentation/
+│   │   ├── auth/           # Funkcjonalność autentykacji
+│   │   │   ├── data/
+│   │   │   ├── domain/
+│   │   │   └── presentation/
+│   │   ├── explore/        # Funkcjonalność eksploracji
+│   │   │   ├── data/
+│   │   │   ├── domain/
+│   │   │   └── presentation/
+│   │   ├── user/           # Funkcjonalność użytkownika
+│   │   │   ├── data/
+│   │   │   ├── domain/
+│   │   │   └── presentation/
+│   │   └── user_chats/     # Funkcjonalność czatów użytkownika
+│   │       ├── data/
+│   │       ├── domain/
+│   │       └── presentation/
+│   ├── common/            # Współdzielone komponenty
+│   ├── models/            # Globalne modele danych
+│   └── services/          # Globalne serwisy
+```
+
+Każdy katalog funkcjonalności (`account`, `auth`, `explore`, `user`, `user_chats`) zawiera standardową strukturę z podziałem na warstwy:
+- `data/` - implementacje repozytoriów i źródeł danych
+- `domain/` - modele i logika biznesowa
+- `presentation/` - widoki i komponenty UI

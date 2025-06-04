@@ -8,20 +8,23 @@ alwaysApply: true
 #### Frontend (Aplikacja Mobilna)
 
 -   Framework: Flutter 3.29.3
--   Język Programowania: Dart 3.7.2
+-   Język Programowania: Dart ^3.7.2
 -   Główne Biblioteki/Pakiety:
-    -   `firebase_core` 3.13.0: Podstawowy plugin Firebase dla Fluttera
-    -   `dio` 5.8.0 Pakiet do obsługi zapytań HTTP
-    -   `riverpod` 2.6.1 framework do zarządzania stanem i wstrzykiwania zależności w aplikacjach Flutter
-    -   `firebase_auth:` ^5.5.3 plugin Firebase Auth dla Fluttera
+    -   `firebase_core` ^2.32.0: Podstawowy plugin Firebase dla Fluttera
+    -   `firebase_auth` ^4.17.5: Plugin Firebase Auth dla Fluttera
+    -   `cloud_firestore` ^4.15.5: Plugin Firestore dla Fluttera
+    -   `dio` ^5.8.0+1: Pakiet do obsługi zapytań HTTP
+    -   `riverpod` ^2.6.1: Framework do zarządzania stanem
+    -   `flutter_riverpod` ^2.6.1: Integracja Riverpod z Flutterem
+    -   `equatable` ^2.0.7: Biblioteka do porównywania obiektów
+    -   `flutter_dotenv` ^5.2.1: Zarządzanie zmiennymi środowiskowymi
+    -   `cupertino_icons` ^1.0.8: Ikony iOS style
 
 #### Backend
 
 -   Platforma: Firebase
--   Baza Danych: Firestore (lub inna usługa bazy danych Firebase)
+-   Baza Danych: Cloud Firestore
 -   Kluczowe usługi Firebase:
     -   Firebase Authentication (System autentykacji użytkowników)
-    -   Firebase Realtime Database / Firestore (Obsługa czatu w czasie rzeczywistym)
-    -   Firebase Cloud Functions (Logika backendu)
-
-    
+    -   Cloud Firestore (Baza danych w czasie rzeczywistym)
+    -   Firebase Core (Podstawowa funkcjonalność Firebase)
