@@ -206,6 +206,40 @@ class ExploreScreen extends ConsumerWidget {
                   );
                 }
 
+                // Create a map to store user statuses to avoid multiple reads
+                final userStatuses = Map.fromEntries(
+                  filteredUsers.map((user) {
+                    final status =
+                        ref.read(chatStatusProvider(user.id)).value ??
+                        ChatStatus.none;
+                    return MapEntry(user.id, status);
+                  }),
+                );
+
+                // Sort users based on their status
+                filteredUsers.sort((a, b) {
+                  final statusA = userStatuses[a.id] ?? ChatStatus.none;
+                  final statusB = userStatuses[b.id] ?? ChatStatus.none;
+
+                  // Helper function to get priority (lower number = higher priority)
+                  int getPriority(ChatStatus status) {
+                    switch (status) {
+                      case ChatStatus.none:
+                        return 0;
+                      case ChatStatus.pending:
+                        return 1;
+                      case ChatStatus.active:
+                        return 2;
+                      case ChatStatus.rejected:
+                        return 3;
+                      case ChatStatus.ended:
+                        return 4;
+                    }
+                  }
+
+                  return getPriority(statusA).compareTo(getPriority(statusB));
+                });
+
                 return RefreshIndicator(
                   onRefresh: () async {
                     ref.invalidate(exploreUsersProvider);
@@ -217,76 +251,56 @@ class ExploreScreen extends ConsumerWidget {
                       final chatStatus = ref.watch(chatStatusProvider(user.id));
 
                       return chatStatus.when(
-                        data:
-                            (status) => ListTile(
-                              leading: CircleAvatar(
-                                child: Text(user.pseudonim[0].toUpperCase()),
-                              ),
-                              title: Text(user.pseudonim),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                        data: (status) {
+                          // Check if we need to add a separator
+                          if (index > 0) {
+                            final previousStatus =
+                                userStatuses[filteredUsers[index - 1].id];
+                            final currentHasStatus = status != ChatStatus.none;
+                            final previousHasStatus =
+                                previousStatus != ChatStatus.none;
+
+                            if (currentHasStatus && !previousHasStatus) {
+                              return Column(
                                 children: [
-                                  Text(
-                                    'Ostatnio aktywny: ${_formatLastSeen(user.lastSeen)}',
+                                  const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 16.0,
+                                      vertical: 8.0,
+                                    ),
+                                    child: Divider(thickness: 1),
                                   ),
-                                  Text(
-                                    _getStatusText(status),
-                                    style: TextStyle(
-                                      color: _getStatusColor(status),
-                                      fontWeight: FontWeight.bold,
+                                  const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 16.0,
+                                      vertical: 4.0,
+                                    ),
+                                    child: Text(
+                                      'Ostatnie prośby o rozmowę',
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
+                                  _buildUserListTile(context, user, status),
                                 ],
-                              ),
-                              trailing: Icon(
-                                user.gender == 'M' ? Icons.male : Icons.female,
-                                color:
-                                    user.gender == 'M'
-                                        ? Colors.blue
-                                        : Colors.pink,
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder:
-                                        (context) =>
-                                            ChatRequestScreen(user: user),
-                                  ),
-                                );
-                              },
-                            ),
+                              );
+                            }
+                          }
+
+                          return _buildUserListTile(context, user, status);
+                        },
                         loading:
                             () => const ListTile(
                               leading: CircleAvatar(),
                               title: Text('Ładowanie...'),
                             ),
                         error:
-                            (_, __) => ListTile(
-                              leading: CircleAvatar(
-                                child: Text(user.pseudonim[0].toUpperCase()),
-                              ),
-                              title: Text(user.pseudonim),
-                              subtitle: Text(
-                                'Ostatnio aktywny: ${_formatLastSeen(user.lastSeen)}',
-                              ),
-                              trailing: Icon(
-                                user.gender == 'M' ? Icons.male : Icons.female,
-                                color:
-                                    user.gender == 'M'
-                                        ? Colors.blue
-                                        : Colors.pink,
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder:
-                                        (context) =>
-                                            ChatRequestScreen(user: user),
-                                  ),
-                                );
-                              },
+                            (_, __) => _buildUserListTile(
+                              context,
+                              user,
+                              ChatStatus.none,
                             ),
                       );
                     },
@@ -347,5 +361,41 @@ class ExploreScreen extends ConsumerWidget {
     } else {
       return '${difference.inDays} dni temu';
     }
+  }
+
+  Widget _buildUserListTile(
+    BuildContext context,
+    ExploreUser user,
+    ChatStatus status,
+  ) {
+    return ListTile(
+      leading: CircleAvatar(child: Text(user.pseudonim[0].toUpperCase())),
+      title: Text(user.pseudonim),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Ostatnio aktywny: ${_formatLastSeen(user.lastSeen)}'),
+          Text(
+            _getStatusText(status),
+            style: TextStyle(
+              color: _getStatusColor(status),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+      trailing: Icon(
+        user.gender == 'M' ? Icons.male : Icons.female,
+        color: user.gender == 'M' ? Colors.blue : Colors.pink,
+      ),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChatRequestScreen(user: user),
+          ),
+        );
+      },
+    );
   }
 }
