@@ -54,6 +54,7 @@
     - `timestamp`: timestamp (wymagane) - Czas zgłoszenia
 
 - Kolekcja: `chatMessagesArchive` (Propozycja dla archiwum wiadomości)
+
   - Dokument ID: Auto-generowane przez Firestore (string)
   - Pola:
     - `chatId`: string (wymagane, ID dokumentu z kolekcji `chats`)
@@ -63,6 +64,13 @@
       - `message`: string (wymagane, treść wiadomości)
       - `time`: timestamp (wymagane, czas wysłania wiadomości)
     - `archivedAt`: timestamp (wymagane) - Czas archiwizacji wiadomości
+
+- Kolekcja `locations`
+  - Dokument ID: Auto-generowane przez Firestore (string)
+  - Pola:
+    - `city`: array of strings (wymagane) - lista dostepnych miast w aplikacji do określenia lokalizacji.
+    - `voivodeship`: array of strings (wymagane) - lista dostepnych województw w aplikacji do określenia lokalizacji.
+    - `country`: array of strings (wymagane) - lista dostepnych krajów w aplikacji do określenia lokalizacji.
 
 2. Zasady nierelacyjnych baz danych
 
