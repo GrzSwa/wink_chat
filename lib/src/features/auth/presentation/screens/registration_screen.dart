@@ -7,6 +7,7 @@ import 'package:wink_chat/src/features/auth/presentation/widgets/footer.dart';
 import 'package:wink_chat/src/features/auth/presentation/screens/login_screen.dart';
 import 'package:wink_chat/src/features/auth/presentation/providers/auth_provider.dart';
 import 'package:wink_chat/src/features/auth/data/repositories/firebase_user_repository.dart';
+import 'package:wink_chat/src/features/auth/presentation/providers/locations_provider.dart';
 
 class RegistrationScreen extends ConsumerStatefulWidget {
   const RegistrationScreen({super.key});
@@ -20,8 +21,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   final _passwordController = TextEditingController();
   final _nickNameController = TextEditingController();
   String _selectedGender = "M";
-  String _selectedLocationType = "country";
-  String _selectedLocationValue = "Polska";
+  String? _selectedLocationValue;
   final _userRepository = FirebaseUserRepository();
 
   @override
@@ -41,7 +41,8 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   Future<void> _register() async {
     if (_emailController.text.isNotEmpty &&
         _passwordController.text.isNotEmpty &&
-        _nickNameController.text.isNotEmpty) {
+        _nickNameController.text.isNotEmpty &&
+        _selectedLocationValue != null) {
       final result = await ref
           .read(authControllerProvider.notifier)
           .signUp(
@@ -52,14 +53,14 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
       if (!result.hasError) {
         final authUser = ref.read(authStateProvider).value;
         if (authUser != null) {
+          final locationType = await ref.read(
+            locationTypeProvider(_selectedLocationValue!).future,
+          );
           await _userRepository.createUserProfile(
             authUser: authUser,
             pseudonim: _nickNameController.text.trim(),
             gender: _selectedGender,
-            location: {
-              'type': _selectedLocationType,
-              'value': _selectedLocationValue,
-            },
+            location: {'type': locationType, 'value': _selectedLocationValue!},
           );
         }
       }
@@ -69,6 +70,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authControllerProvider);
+    final locationsAsync = ref.watch(locationsProvider);
 
     ref.listen(authStateProvider, (previous, next) {
       if (next.value != null) {
@@ -122,19 +124,24 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                     }
                   },
                 ),
-                Field.select(
-                  options: const ["Polska", "Świętokrzyskie", "Podkarpackie"],
-                  selectedValue: _selectedLocationValue,
-                  label: "Wybierz swoją lokalizację",
-                  onChanged: (value) {
-                    if (value != null) {
-                      setState(() {
-                        _selectedLocationValue = value;
-                        _selectedLocationType =
-                            value == "Polska" ? "country" : "voivodeship";
-                      });
-                    }
-                  },
+                locationsAsync.when(
+                  data:
+                      (locations) => Field.select(
+                        options: locations,
+                        selectedValue: _selectedLocationValue,
+                        label: "Wybierz swoją lokalizację",
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedLocationValue = value;
+                          });
+                        },
+                      ),
+                  loading: () => const CircularProgressIndicator(),
+                  error:
+                      (_, __) => const Text(
+                        "Nie udało się załadować lokalizacji",
+                        style: TextStyle(color: Colors.red),
+                      ),
                 ),
                 PrimaryButton(
                   onPressed: authState.isLoading ? null : _register,

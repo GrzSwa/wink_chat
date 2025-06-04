@@ -85,7 +85,7 @@ class Field extends StatelessWidget {
   factory Field.select({
     String label = "Select",
     required List<String> options,
-    required String selectedValue,
+    required String? selectedValue,
     required Function(String) onChanged,
   }) {
     return Field._(
@@ -104,7 +104,7 @@ class Field extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label!, style: const TextStyle(fontWeight: FontWeight.bold)),
+          Text(label!, style: const TextStyle(fontWeight: FontWeight.w600)),
           Row(
             children:
                 radioOptions!
@@ -135,7 +135,7 @@ class Field extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label!, style: const TextStyle(fontWeight: FontWeight.bold)),
+          Text(label!, style: const TextStyle(fontWeight: FontWeight.w600)),
           const SizedBox(height: 6),
           Container(
             decoration: BoxDecoration(
@@ -143,6 +143,7 @@ class Field extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
             child: DropdownButton<String>(
+              hint: Text(placeholder),
               value: selectedDropdownValue,
               isExpanded: true,
               underline: Container(),
@@ -168,7 +169,7 @@ class Field extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label!, style: const TextStyle(fontWeight: FontWeight.bold)),
+        Text(label!, style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(height: 6),
         TextField(
           controller: controller,
