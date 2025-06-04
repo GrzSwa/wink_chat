@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wink_chat/src/features/auth/presentation/screens/welcome_screen.dart';
 import 'package:wink_chat/src/features/auth/presentation/providers/auth_provider.dart';
 import 'package:wink_chat/src/features/account/providers/user_provider.dart';
+import 'package:wink_chat/src/features/account/domain/user.dart';
+import 'package:wink_chat/src/features/account/providers/locations_provider.dart';
 
 class AccountScreen extends ConsumerWidget {
   const AccountScreen({super.key});
@@ -19,6 +21,71 @@ class AccountScreen extends ConsumerWidget {
 
   String _getGenderDisplay(String gender) {
     return gender == 'M' ? 'Mężczyzna' : 'Kobieta';
+  }
+
+  Future<void> _showLocationChangeDialog(
+    BuildContext context,
+    WidgetRef ref,
+    String currentLocation,
+  ) async {
+    String? selectedLocation;
+
+    final result = await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Zmień lokalizację'),
+          content: Consumer(
+            builder: (context, ref, child) {
+              final locationsAsync = ref.watch(availableLocationsProvider);
+
+              return locationsAsync.when(
+                data:
+                    (locations) => DropdownButton<String>(
+                      value: selectedLocation ?? currentLocation,
+                      isExpanded: true,
+                      items:
+                          locations.map((String location) {
+                            return DropdownMenuItem<String>(
+                              value: location,
+                              child: Text(location),
+                            );
+                          }).toList(),
+                      onChanged: (String? value) {
+                        if (value != null) {
+                          selectedLocation = value;
+                          Navigator.of(context).pop(value);
+                        }
+                      },
+                    ),
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error:
+                    (_, __) => const Text(
+                      'Nie udało się załadować lokalizacji',
+                      style: TextStyle(color: Colors.red),
+                    ),
+              );
+            },
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Anuluj'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (result != null && context.mounted) {
+      final locationType = ref.read(locationTypeProvider(result));
+      await ref
+          .read(userRepositoryProvider)
+          .updateUserLocation(
+            ref.read(authStateProvider).value!.id,
+            UserLocation(type: locationType, value: result),
+          );
+    }
   }
 
   @override
@@ -144,9 +211,12 @@ class AccountScreen extends ConsumerWidget {
                     leading: const Icon(Icons.edit_location),
                     title: const Text('Zmień lokalizację'),
                     trailing: const Icon(Icons.chevron_right),
-                    onTap: () {
-                      // TODO: Implement location change dialog
-                    },
+                    onTap:
+                        () => _showLocationChangeDialog(
+                          context,
+                          ref,
+                          user.location.value,
+                        ),
                   ),
                   const Divider(),
                   const SizedBox(height: 32),
