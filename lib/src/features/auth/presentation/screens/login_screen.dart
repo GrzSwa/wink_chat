@@ -4,7 +4,7 @@ import 'package:wink_chat/src/common/widgets/app_logo.dart';
 import 'package:wink_chat/src/common/widgets/field.dart';
 import 'package:wink_chat/src/common/widgets/primary_button.dart';
 import 'package:wink_chat/src/features/auth/presentation/widgets/footer.dart';
-import 'package:wink_chat/src/common/widgets/main_app_screen.dart';
+import 'package:wink_chat/src/common/screens/main_app_screen.dart';
 import 'package:wink_chat/src/features/auth/presentation/screens/registration_screen.dart';
 import 'package:wink_chat/src/features/auth/presentation/providers/auth_provider.dart';
 

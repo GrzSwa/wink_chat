@@ -134,7 +134,7 @@ class ChatRepository {
         doc,
       ) {
         if (!doc.exists) return ChatStatus.none;
-        final data = doc.data() as Map<String, dynamic>?;
+        final data = doc.data();
         if (data == null) return ChatStatus.none;
 
         final chatData = data[targetUserId] as Map<String, dynamic>?;

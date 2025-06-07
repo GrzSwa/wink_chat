@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wink_chat/src/features/auth/presentation/screens/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:wink_chat/src/common/widgets/main_app_screen.dart';
+import 'package:wink_chat/src/common/screens/main_app_screen.dart';
 import 'package:wink_chat/src/common/providers/auth_state_provider.dart';
 import 'firebase_options.dart';
 
