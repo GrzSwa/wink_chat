@@ -16,6 +16,11 @@ WinkChat is a Minimum Viable Product (MVP) mobile application designed to facili
   - `riverpod` 2.6.1: State management and dependency injection framework
   - `cupertino_icons` ^1.0.8
   - `equatable` ^2.0.7
+- **Testing Tools:**
+  - `flutter_test`: Core testing framework for unit and widget tests
+  - `integration_test`: Package for integration testing
+  - `flutter_driver`: Tool for end-to-end testing
+  - Firebase Test Lab: Cloud-based app testing infrastructure
 
 **Backend:**
 
@@ -108,3 +113,15 @@ This project is currently in its Minimum Viable Product (MVP) phase. It includes
 ## License
 
 MIT License
+
+## Testing
+
+The project includes comprehensive testing setup with:
+
+- **Unit Tests:** Using Flutter Test Framework with minimum 80% code coverage
+- **Widget Tests:** For UI components, responsiveness, and accessibility
+- **Integration Tests:** For Firebase integration and inter-module communication
+- **E2E Tests:** For main user flows including authentication and chat scenarios
+- **Performance Tests:** For chat system load testing, concurrent connections, and Firebase response times
+
+For detailed testing information, refer to `.ai/test-plan.md`.

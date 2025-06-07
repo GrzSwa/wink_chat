@@ -19,6 +19,11 @@ alwaysApply: true
     -   `equatable` ^2.0.7: Biblioteka do porównywania obiektów
     -   `flutter_dotenv` ^5.2.1: Zarządzanie zmiennymi środowiskowymi
     -   `cupertino_icons` ^1.0.8: Ikony iOS style
+-   Narzędzia Testowe:
+    -   `flutter_test`: Framework do testów jednostkowych i widgetów
+    -   `integration_test`: Pakiet do testów integracyjnych
+    -   `flutter_driver`: Narzędzie do testów E2E
+    -   Firebase Test Lab: Infrastruktura do testów w chmurze
 
 #### Backend
 
