@@ -3,14 +3,26 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
+import 'dart:async' as _i5;
 
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:wink_chat/src/common/domain/models/auth_user.dart' as _i2;
 import 'package:wink_chat/src/common/domain/repositories/auth_repository.dart'
-    as _i3;
+    as _i4;
+import 'package:wink_chat/src/features/account/data/locations_repository.dart'
+    as _i7;
+import 'package:wink_chat/src/features/account/data/user_repository.dart'
+    as _i8;
+import 'package:wink_chat/src/features/account/domain/location.dart' as _i3;
+import 'package:wink_chat/src/features/account/domain/user.dart' as _i9;
 import 'package:wink_chat/src/features/auth/data/repositories/firebase_user_repository.dart'
-    as _i5;
+    as _i6;
+import 'package:wink_chat/src/features/explore/data/repositories/chat_repository.dart'
+    as _i10;
+import 'package:wink_chat/src/features/explore/data/repositories/explore_repository.dart'
+    as _i11;
+import 'package:wink_chat/src/features/explore/domain/models/explore_user.dart'
+    as _i12;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -31,24 +43,29 @@ class _FakeAuthUser_0 extends _i1.SmartFake implements _i2.AuthUser {
     : super(parent, parentInvocation);
 }
 
+class _FakeLocationsList_1 extends _i1.SmartFake implements _i3.LocationsList {
+  _FakeLocationsList_1(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
 /// A class which mocks [AuthRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
+class MockAuthRepository extends _i1.Mock implements _i4.AuthRepository {
   MockAuthRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Stream<_i2.AuthUser?> get authStateChanges =>
+  _i5.Stream<_i2.AuthUser?> get authStateChanges =>
       (super.noSuchMethod(
             Invocation.getter(#authStateChanges),
-            returnValue: _i4.Stream<_i2.AuthUser?>.empty(),
+            returnValue: _i5.Stream<_i2.AuthUser?>.empty(),
           )
-          as _i4.Stream<_i2.AuthUser?>);
+          as _i5.Stream<_i2.AuthUser?>);
 
   @override
-  _i4.Future<_i2.AuthUser> signUp({
+  _i5.Future<_i2.AuthUser> signUp({
     required String? email,
     required String? password,
   }) =>
@@ -57,7 +74,7 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
               #email: email,
               #password: password,
             }),
-            returnValue: _i4.Future<_i2.AuthUser>.value(
+            returnValue: _i5.Future<_i2.AuthUser>.value(
               _FakeAuthUser_0(
                 this,
                 Invocation.method(#signUp, [], {
@@ -67,10 +84,10 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
               ),
             ),
           )
-          as _i4.Future<_i2.AuthUser>);
+          as _i5.Future<_i2.AuthUser>);
 
   @override
-  _i4.Future<_i2.AuthUser> signIn({
+  _i5.Future<_i2.AuthUser> signIn({
     required String? email,
     required String? password,
   }) =>
@@ -79,7 +96,7 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
               #email: email,
               #password: password,
             }),
-            returnValue: _i4.Future<_i2.AuthUser>.value(
+            returnValue: _i5.Future<_i2.AuthUser>.value(
               _FakeAuthUser_0(
                 this,
                 Invocation.method(#signIn, [], {
@@ -89,29 +106,29 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
               ),
             ),
           )
-          as _i4.Future<_i2.AuthUser>);
+          as _i5.Future<_i2.AuthUser>);
 
   @override
-  _i4.Future<void> signOut() =>
+  _i5.Future<void> signOut() =>
       (super.noSuchMethod(
             Invocation.method(#signOut, []),
-            returnValue: _i4.Future<void>.value(),
-            returnValueForMissingStub: _i4.Future<void>.value(),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
           )
-          as _i4.Future<void>);
+          as _i5.Future<void>);
 }
 
 /// A class which mocks [FirebaseUserRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockFirebaseUserRepository extends _i1.Mock
-    implements _i5.FirebaseUserRepository {
+    implements _i6.FirebaseUserRepository {
   MockFirebaseUserRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<void> createUserProfile({
+  _i5.Future<void> createUserProfile({
     required _i2.AuthUser? authUser,
     required String? pseudonim,
     required String? gender,
@@ -124,8 +141,157 @@ class MockFirebaseUserRepository extends _i1.Mock
               #gender: gender,
               #location: location,
             }),
-            returnValue: _i4.Future<void>.value(),
-            returnValueForMissingStub: _i4.Future<void>.value(),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
           )
-          as _i4.Future<void>);
+          as _i5.Future<void>);
+}
+
+/// A class which mocks [LocationsRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockLocationsRepository extends _i1.Mock
+    implements _i7.LocationsRepository {
+  MockLocationsRepository() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<_i3.LocationsList> getLocations() =>
+      (super.noSuchMethod(
+            Invocation.method(#getLocations, []),
+            returnValue: _i5.Future<_i3.LocationsList>.value(
+              _FakeLocationsList_1(this, Invocation.method(#getLocations, [])),
+            ),
+          )
+          as _i5.Future<_i3.LocationsList>);
+}
+
+/// A class which mocks [UserRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockUserRepository extends _i1.Mock implements _i8.UserRepository {
+  MockUserRepository() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Stream<_i9.User?> getUserStream(String? uid) =>
+      (super.noSuchMethod(
+            Invocation.method(#getUserStream, [uid]),
+            returnValue: _i5.Stream<_i9.User?>.empty(),
+          )
+          as _i5.Stream<_i9.User?>);
+
+  @override
+  _i5.Future<void> updateUserLocation(
+    String? uid,
+    _i9.UserLocation? location,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateUserLocation, [uid, location]),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
+}
+
+/// A class which mocks [ChatRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockChatRepository extends _i1.Mock implements _i10.ChatRepository {
+  MockChatRepository() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<void> createChatRequest({
+    required String? currentUserId,
+    required String? targetUserId,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#createChatRequest, [], {
+              #currentUserId: currentUserId,
+              #targetUserId: targetUserId,
+            }),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> respondToChatRequest({
+    required String? currentUserId,
+    required String? initiatorId,
+    required bool? accepted,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#respondToChatRequest, [], {
+              #currentUserId: currentUserId,
+              #initiatorId: initiatorId,
+              #accepted: accepted,
+            }),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> sendChatRequest({
+    required String? initiatorId,
+    required String? recipientId,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#sendChatRequest, [], {
+              #initiatorId: initiatorId,
+              #recipientId: recipientId,
+            }),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
+
+  @override
+  _i5.Stream<List<Map<String, dynamic>>> getPendingChatRequests(
+    String? userId,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#getPendingChatRequests, [userId]),
+            returnValue: _i5.Stream<List<Map<String, dynamic>>>.empty(),
+          )
+          as _i5.Stream<List<Map<String, dynamic>>>);
+
+  @override
+  _i5.Stream<_i10.ChatStatus> getChatStatus(
+    String? currentUserId,
+    String? targetUserId,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#getChatStatus, [currentUserId, targetUserId]),
+            returnValue: _i5.Stream<_i10.ChatStatus>.empty(),
+          )
+          as _i5.Stream<_i10.ChatStatus>);
+}
+
+/// A class which mocks [ExploreRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockExploreRepository extends _i1.Mock implements _i11.ExploreRepository {
+  MockExploreRepository() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Stream<List<_i12.ExploreUser>> getUsersInLocation(
+    String? locationValue,
+    String? currentUserId,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#getUsersInLocation, [
+              locationValue,
+              currentUserId,
+            ]),
+            returnValue: _i5.Stream<List<_i12.ExploreUser>>.empty(),
+          )
+          as _i5.Stream<List<_i12.ExploreUser>>);
 }

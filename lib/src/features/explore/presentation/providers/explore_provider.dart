@@ -15,11 +15,17 @@ final userLocationProvider = StateProvider<String>((ref) {
 
 final exploreUsersProvider = StreamProvider<List<ExploreUser>>((ref) {
   final authUser = ref.watch(authStateProvider).value;
-  if (authUser == null) return Stream.value([]);
+  if (authUser == null) {
+    return Stream.value([]);
+  }
+
+  final user = ref.watch(userStreamProvider).value;
+  final locationValue = user?.location?.value;
+
+  if (locationValue == null || locationValue.isEmpty) {
+    return Stream.value([]);
+  }
 
   final exploreRepository = ref.watch(exploreRepositoryProvider);
-  final locationValue = ref.watch(userLocationProvider);
-
-  if (locationValue.isEmpty) return Stream.value([]);
   return exploreRepository.getUsersInLocation(locationValue, authUser.id);
 });
