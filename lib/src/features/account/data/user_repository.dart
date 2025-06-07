@@ -16,9 +16,13 @@ class UserRepository {
   }
 
   Future<void> updateUserLocation(String uid, UserLocation location) async {
-    await _firestore.collection('users').doc(uid).update({
-      'location': location.toMap(),
-      'updatedAt': FieldValue.serverTimestamp(),
+    final userRef = _firestore.collection('users').doc(uid);
+
+    await _firestore.runTransaction((transaction) async {
+      transaction.update(userRef, {
+        'location': location.toMap(),
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
     });
   }
 }

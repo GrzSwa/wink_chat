@@ -40,14 +40,22 @@ class User extends Equatable {
 
   factory User.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
+
+    // Bezpieczna konwersja timestampów
+    DateTime _safeTimestamp(dynamic timestamp) {
+      if (timestamp == null) return DateTime.now();
+      if (timestamp is Timestamp) return timestamp.toDate();
+      return DateTime.now();
+    }
+
     return User(
       uid: doc.id,
       pseudonim: data['pseudonim'] as String,
       gender: data['gender'] as String,
       location: UserLocation.fromMap(data['location'] as Map<String, dynamic>),
-      lastSeen: (data['lastSeen'] as Timestamp).toDate(),
-      createdAt: (data['createdAt'] as Timestamp).toDate(),
-      updatedAt: (data['updatedAt'] as Timestamp).toDate(),
+      lastSeen: _safeTimestamp(data['lastSeen']),
+      createdAt: _safeTimestamp(data['createdAt']),
+      updatedAt: _safeTimestamp(data['updatedAt']),
     );
   }
 
