@@ -32,11 +32,11 @@ class UserChatsScreen extends ConsumerWidget {
 
               return ListTile(
                 leading: CircleAvatar(
-                  backgroundColor: Colors.blue[100],
+                  // backgroundColor: Colors.pink,
                   child: Text(
                     chat.participantPseudonim[0].toUpperCase(),
                     style: const TextStyle(
-                      color: Colors.blue,
+                      color: Colors.black54,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
