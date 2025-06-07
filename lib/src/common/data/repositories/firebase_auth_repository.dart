@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:wink_chat/src/features/auth/domain/models/auth_user.dart';
-import 'package:wink_chat/src/features/auth/domain/repositories/auth_repository.dart';
+import 'package:wink_chat/src/common/domain/models/auth_user.dart';
+import 'package:wink_chat/src/common/domain/repositories/auth_repository.dart';
 
 class FirebaseAuthRepository implements AuthRepository {
   final FirebaseAuth _firebaseAuth;
@@ -53,24 +53,27 @@ class FirebaseAuthRepository implements AuthRepository {
     await _firebaseAuth.signOut();
   }
 
+  @override
+  AuthUser? get currentUser {
+    final user = _firebaseAuth.currentUser;
+    if (user == null) return null;
+    return AuthUser.fromFirebase(user);
+  }
+
   Exception _handleAuthException(FirebaseAuthException e) {
     switch (e.code) {
-      case 'email-already-in-use':
-        return Exception('Ten adres email jest już używany');
-      case 'invalid-email':
-        return Exception('Nieprawidłowy adres email');
-      case 'operation-not-allowed':
-        return Exception('Operacja niedozwolona');
-      case 'weak-password':
-        return Exception('Hasło jest zbyt słabe');
-      case 'user-disabled':
-        return Exception('Konto zostało wyłączone');
       case 'user-not-found':
-        return Exception('Nie znaleziono użytkownika');
+        return Exception('Nie znaleziono użytkownika o podanym adresie email.');
       case 'wrong-password':
-        return Exception('Nieprawidłowe hasło');
+        return Exception('Nieprawidłowe hasło.');
+      case 'email-already-in-use':
+        return Exception('Ten adres email jest już używany.');
+      case 'invalid-email':
+        return Exception('Nieprawidłowy adres email.');
+      case 'weak-password':
+        return Exception('Hasło jest za słabe.');
       default:
-        return Exception('Wystąpił nieznany błąd');
+        return Exception('Wystąpił błąd: ${e.message}');
     }
   }
 }

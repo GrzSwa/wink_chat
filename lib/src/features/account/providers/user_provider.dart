@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wink_chat/src/features/account/data/user_repository.dart';
 import 'package:wink_chat/src/features/account/domain/user.dart';
-import 'package:wink_chat/src/features/auth/presentation/providers/auth_provider.dart';
+import 'package:wink_chat/src/common/providers/auth_state_provider.dart';
 
 final userRepositoryProvider = Provider<UserRepository>((ref) {
   return UserRepository();

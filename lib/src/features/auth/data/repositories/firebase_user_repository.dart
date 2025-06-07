@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:wink_chat/src/features/auth/domain/models/auth_user.dart';
+import 'package:wink_chat/src/common/domain/models/auth_user.dart';
 
 class FirebaseUserRepository {
   final FirebaseFirestore _firestore;

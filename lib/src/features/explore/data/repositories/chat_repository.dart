@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wink_chat/src/features/auth/presentation/providers/auth_provider.dart';
+import 'package:wink_chat/src/common/providers/auth_state_provider.dart';
 
 enum ChatStatus { none, pending, active, rejected, ended }
 

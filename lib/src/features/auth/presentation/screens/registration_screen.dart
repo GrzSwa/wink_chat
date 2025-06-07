@@ -8,6 +8,7 @@ import 'package:wink_chat/src/features/auth/presentation/screens/login_screen.da
 import 'package:wink_chat/src/features/auth/presentation/providers/auth_provider.dart';
 import 'package:wink_chat/src/features/auth/data/repositories/firebase_user_repository.dart';
 import 'package:wink_chat/src/features/auth/presentation/providers/locations_provider.dart';
+import 'package:wink_chat/src/common/providers/auth_state_provider.dart';
 
 class RegistrationScreen extends ConsumerStatefulWidget {
   const RegistrationScreen({super.key});
@@ -44,7 +45,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         _nickNameController.text.isNotEmpty &&
         _selectedLocationValue != null) {
       final result = await ref
-          .read(authControllerProvider.notifier)
+          .read(authFeatureControllerProvider.notifier)
           .signUp(
             email: _emailController.text.trim(),
             password: _passwordController.text,
@@ -69,7 +70,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authControllerProvider);
+    final authState = ref.watch(authFeatureControllerProvider);
     final locationsAsync = ref.watch(locationsProvider);
 
     ref.listen(authStateProvider, (previous, next) {

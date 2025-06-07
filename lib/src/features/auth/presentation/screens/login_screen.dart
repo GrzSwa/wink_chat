@@ -43,7 +43,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (_emailController.text.isNotEmpty &&
         _passwordController.text.isNotEmpty) {
       final result = await ref
-          .read(authControllerProvider.notifier)
+          .read(authFeatureControllerProvider.notifier)
           .signIn(
             email: _emailController.text.trim(),
             password: _passwordController.text,
@@ -57,7 +57,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authControllerProvider);
+    final authState = ref.watch(authFeatureControllerProvider);
 
     return Scaffold(
       backgroundColor: Colors.white,

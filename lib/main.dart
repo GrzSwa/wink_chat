@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wink_chat/src/features/auth/presentation/screens/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:wink_chat/src/common/widgets/main_app_screen.dart';
-import 'package:wink_chat/src/features/auth/presentation/providers/auth_provider.dart';
+import 'package:wink_chat/src/common/providers/auth_state_provider.dart';
 import 'firebase_options.dart';
 
 void main() async {

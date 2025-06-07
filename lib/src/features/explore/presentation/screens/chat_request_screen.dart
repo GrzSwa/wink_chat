@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wink_chat/src/features/auth/presentation/providers/auth_provider.dart';
+import 'package:wink_chat/src/common/providers/auth_state_provider.dart';
 import 'package:wink_chat/src/features/explore/data/repositories/chat_repository.dart';
 import 'package:wink_chat/src/features/explore/domain/models/explore_user.dart';
 
