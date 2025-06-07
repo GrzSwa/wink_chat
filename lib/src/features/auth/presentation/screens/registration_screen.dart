@@ -3,12 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wink_chat/src/common/widgets/app_logo.dart';
 import 'package:wink_chat/src/common/widgets/field.dart';
 import 'package:wink_chat/src/common/widgets/primary_button.dart';
+import 'package:wink_chat/src/common/providers/auth_state_provider.dart';
 import 'package:wink_chat/src/features/auth/presentation/widgets/footer.dart';
 import 'package:wink_chat/src/features/auth/presentation/screens/login_screen.dart';
 import 'package:wink_chat/src/features/auth/presentation/providers/auth_provider.dart';
 import 'package:wink_chat/src/features/auth/data/repositories/firebase_user_repository.dart';
 import 'package:wink_chat/src/features/auth/presentation/providers/locations_provider.dart';
-import 'package:wink_chat/src/common/providers/auth_state_provider.dart';
 
 class RegistrationScreen extends ConsumerStatefulWidget {
   const RegistrationScreen({super.key});
@@ -118,11 +118,9 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                   selectedValue: _selectedGender,
                   label: "Płeć",
                   onChanged: (value) {
-                    if (value != null) {
-                      setState(() {
-                        _selectedGender = value;
-                      });
-                    }
+                    setState(() {
+                      _selectedGender = value;
+                    });
                   },
                 ),
                 locationsAsync.when(

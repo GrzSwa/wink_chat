@@ -9,12 +9,14 @@ class UserList extends ConsumerWidget {
   final List<ExploreUser> users;
   final Set<String> pendingUserIds;
   final String? currentUserId;
+  final Function(ExploreUser) onChatRequest;
 
   const UserList({
     super.key,
     required this.users,
     required this.pendingUserIds,
     required this.currentUserId,
+    required this.onChatRequest,
   });
 
   String _formatLastSeen(DateTime lastSeen) {
@@ -128,6 +130,7 @@ class UserList extends ConsumerWidget {
                         user: user,
                         status: status,
                         lastSeenFormatted: _formatLastSeen(user.lastSeen),
+                        onChatRequest: onChatRequest,
                       ),
                     ],
                   );
@@ -138,6 +141,7 @@ class UserList extends ConsumerWidget {
                 user: user,
                 status: status,
                 lastSeenFormatted: _formatLastSeen(user.lastSeen),
+                onChatRequest: onChatRequest,
               );
             },
             loading:
@@ -150,6 +154,7 @@ class UserList extends ConsumerWidget {
                   user: user,
                   status: ChatStatus.none,
                   lastSeenFormatted: _formatLastSeen(user.lastSeen),
+                  onChatRequest: onChatRequest,
                 ),
           );
         },

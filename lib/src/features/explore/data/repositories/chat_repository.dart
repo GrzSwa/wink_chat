@@ -102,6 +102,16 @@ class ChatRepository {
     }
   }
 
+  Future<void> sendChatRequest({
+    required String initiatorId,
+    required String recipientId,
+  }) async {
+    await createChatRequest(
+      currentUserId: initiatorId,
+      targetUserId: recipientId,
+    );
+  }
+
   Stream<List<Map<String, dynamic>>> getPendingChatRequests(String userId) {
     return _firestore.collection('chats').doc(userId).snapshots().map((doc) {
       if (!doc.exists) return [];

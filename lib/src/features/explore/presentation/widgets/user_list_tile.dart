@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:wink_chat/src/features/explore/domain/models/explore_user.dart';
-import 'package:wink_chat/src/features/explore/presentation/screens/chat_request_screen.dart';
 import 'package:wink_chat/src/features/explore/data/repositories/chat_repository.dart';
 
 class UserListTile extends StatelessWidget {
   final ExploreUser user;
   final ChatStatus status;
   final String lastSeenFormatted;
+  final Function(ExploreUser) onChatRequest;
 
   const UserListTile({
     super.key,
     required this.user,
     required this.status,
     required this.lastSeenFormatted,
+    required this.onChatRequest,
   });
 
   String _getStatusText(ChatStatus status) {
@@ -63,18 +64,34 @@ class UserListTile extends StatelessWidget {
           ),
         ],
       ),
-      trailing: Icon(
-        user.gender == 'M' ? Icons.male : Icons.female,
-        color: user.gender == 'M' ? Colors.blue : Colors.pink,
-      ),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ChatRequestScreen(user: user),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            user.gender == 'M' ? Icons.male : Icons.female,
+            color: user.gender == 'M' ? Colors.blue : Colors.pink,
           ),
-        );
-      },
+          const SizedBox(width: 8),
+          if (status == ChatStatus.none)
+            ElevatedButton(
+              onPressed: () {
+                onChatRequest(user);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Wysłano prośbę o rozmowę'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+              ),
+              child: const Text('Rozmowa'),
+            ),
+        ],
+      ),
     );
   }
 }

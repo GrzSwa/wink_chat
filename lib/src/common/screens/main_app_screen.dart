@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wink_chat/src/features/account/presentation/screens/account_screen.dart';
 import 'package:wink_chat/src/features/explore/presentation/screens/explore_screen.dart';
 import 'package:wink_chat/src/features/user_chats/presentation/screens/user_chats_screen.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MainAppScreen extends StatefulWidget {
   const MainAppScreen({super.key});
@@ -33,20 +34,20 @@ class _MainAppScreenState extends State<MainAppScreen> {
         backgroundColor: Colors.white,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.explore_outlined),
+            icon: FaIcon(FontAwesomeIcons.mapLocationDot),
             label: 'W pobliżu',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat_outlined),
+            icon: FaIcon(FontAwesomeIcons.comments),
             label: 'Twoje czaty',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_outlined),
+            icon: FaIcon(FontAwesomeIcons.user),
             label: 'Konto',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Theme.of(context).primaryColor,
+        selectedItemColor: Color.fromRGBO(222, 103, 108, 1),
         onTap: _onItemTapped,
       ),
     );

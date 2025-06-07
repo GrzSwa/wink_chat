@@ -42,6 +42,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
   firebase_auth: ^4.17.5
   cloud_firestore: ^4.15.5
+  font_awesome_flutter: ^10.8.0
 
 dev_dependencies:
   flutter_test:
