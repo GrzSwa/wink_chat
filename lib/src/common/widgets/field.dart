@@ -59,11 +59,13 @@ class Field extends StatelessWidget {
   }
 
   factory Field.input({
+    Key? key,
     required TextEditingController controller,
     String label = 'Input',
     String placeholder = 'Enter value',
   }) {
     return Field._(
+      key: key,
       controller: controller,
       label: label,
       placeholder: placeholder,
@@ -71,12 +73,14 @@ class Field extends StatelessWidget {
   }
 
   factory Field.radio({
+    Key? key,
     String label = "Radio button",
     required List<String> options,
     required String selectedValue,
     required Function(String) onChanged,
   }) {
     return Field._(
+      key: key,
       controller: TextEditingController(),
       label: label,
       placeholder: '',
@@ -87,12 +91,14 @@ class Field extends StatelessWidget {
   }
 
   factory Field.select({
+    Key? key,
     String label = "Select",
     required List<String> options,
     required String? selectedValue,
     required Function(String) onChanged,
   }) {
     return Field._(
+      key: key,
       controller: TextEditingController(),
       label: label,
       placeholder: '',
@@ -113,20 +119,28 @@ class Field extends StatelessWidget {
             children:
                 radioOptions!
                     .map(
-                      (option) => Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Radio<String>(
-                            value: option,
-                            groupValue: selectedRadioValue,
-                            onChanged: (value) {
-                              if (value != null && onRadioChanged != null) {
-                                onRadioChanged!(value);
-                              }
-                            },
-                          ),
-                          Text(option),
-                        ],
+                      (option) => GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () {
+                          if (onRadioChanged != null) {
+                            onRadioChanged!(option);
+                          }
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Radio<String>(
+                              value: option,
+                              groupValue: selectedRadioValue,
+                              onChanged: (value) {
+                                if (value != null && onRadioChanged != null) {
+                                  onRadioChanged!(value);
+                                }
+                              },
+                            ),
+                            Text(option),
+                          ],
+                        ),
                       ),
                     )
                     .toList(),

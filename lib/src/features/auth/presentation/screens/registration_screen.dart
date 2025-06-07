@@ -11,7 +11,14 @@ import 'package:wink_chat/src/features/auth/data/repositories/firebase_user_repo
 import 'package:wink_chat/src/features/auth/presentation/providers/locations_provider.dart';
 
 class RegistrationScreen extends ConsumerStatefulWidget {
-  const RegistrationScreen({super.key});
+  final FirebaseUserRepository? userRepository;
+  final VoidCallback? onRegisterSuccess;
+
+  const RegistrationScreen({
+    super.key,
+    this.userRepository,
+    this.onRegisterSuccess,
+  });
 
   @override
   ConsumerState<RegistrationScreen> createState() => _RegistrationScreenState();
@@ -23,7 +30,13 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   final _nickNameController = TextEditingController();
   String _selectedGender = "M";
   String? _selectedLocationValue;
-  final _userRepository = FirebaseUserRepository();
+  late final FirebaseUserRepository _userRepository;
+
+  @override
+  void initState() {
+    super.initState();
+    _userRepository = widget.userRepository ?? FirebaseUserRepository();
+  }
 
   @override
   void dispose() {
@@ -34,9 +47,13 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   }
 
   void _navigateToLogin(BuildContext context) {
-    Navigator.of(
-      context,
-    ).pushReplacement(MaterialPageRoute(builder: (_) => const LoginScreen()));
+    if (widget.onRegisterSuccess != null) {
+      widget.onRegisterSuccess!();
+    } else {
+      Navigator.of(
+        context,
+      ).pushReplacement(MaterialPageRoute(builder: (_) => const LoginScreen()));
+    }
   }
 
   Future<void> _register() async {
@@ -63,6 +80,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
             gender: _selectedGender,
             location: {'type': locationType, 'value': _selectedLocationValue!},
           );
+          _navigateToLogin(context);
         }
       }
     }
@@ -100,20 +118,24 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                   textScaler: TextScaler.linear(1.0),
                 ),
                 Field.email(
+                  key: const Key('email_field'),
                   controller: _emailController,
                   placeholder: "Wprowadź adres email",
                 ),
                 Field.password(
+                  key: const Key('password_field'),
                   controller: _passwordController,
                   label: "Hasło",
                   placeholder: "Wprowadź hasło",
                 ),
                 Field.input(
+                  key: const Key('nickname_field'),
                   controller: _nickNameController,
                   label: "Nazwa użytkownika",
                   placeholder: "Wprowadź nazwę użytkownika",
                 ),
                 Field.radio(
+                  key: const Key('gender_radio_field'),
                   options: const ["M", "F"],
                   selectedValue: _selectedGender,
                   label: "Płeć",
@@ -126,6 +148,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                 locationsAsync.when(
                   data:
                       (locations) => Field.select(
+                        key: const Key('location_select_field'),
                         options: locations,
                         selectedValue: _selectedLocationValue,
                         label: "Wybierz swoją lokalizację",
@@ -143,6 +166,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                       ),
                 ),
                 PrimaryButton(
+                  key: const Key('register_button'),
                   onPressed: authState.isLoading ? null : _register,
                   width: double.infinity,
                   child:
