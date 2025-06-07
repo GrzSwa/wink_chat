@@ -9,6 +9,8 @@ import 'package:mockito/mockito.dart' as _i1;
 import 'package:wink_chat/src/common/domain/models/auth_user.dart' as _i2;
 import 'package:wink_chat/src/common/domain/repositories/auth_repository.dart'
     as _i3;
+import 'package:wink_chat/src/features/auth/data/repositories/firebase_user_repository.dart'
+    as _i5;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -93,6 +95,35 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
   _i4.Future<void> signOut() =>
       (super.noSuchMethod(
             Invocation.method(#signOut, []),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
+}
+
+/// A class which mocks [FirebaseUserRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockFirebaseUserRepository extends _i1.Mock
+    implements _i5.FirebaseUserRepository {
+  MockFirebaseUserRepository() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<void> createUserProfile({
+    required _i2.AuthUser? authUser,
+    required String? pseudonim,
+    required String? gender,
+    required Map<String, String>? location,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#createUserProfile, [], {
+              #authUser: authUser,
+              #pseudonim: pseudonim,
+              #gender: gender,
+              #location: location,
+            }),
             returnValue: _i4.Future<void>.value(),
             returnValueForMissingStub: _i4.Future<void>.value(),
           )
