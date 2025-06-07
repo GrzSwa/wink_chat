@@ -101,10 +101,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         textScaler: TextScaler.linear(1.0),
                       ),
                       Field.email(
+                        key: const Key('email_field'),
                         controller: _emailController,
                         placeholder: "Wprowadź adres email",
                       ),
                       Field.password(
+                        key: const Key('password_field'),
                         controller: _passwordController,
                         label: "Hasło",
                         placeholder: "Wprowadź hasło",

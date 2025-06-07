@@ -29,11 +29,13 @@ class Field extends StatelessWidget {
   }) : super(key: key);
 
   factory Field.email({
+    Key? key,
     required TextEditingController controller,
     String placeholder = 'Enter your email',
     String label = "Email",
   }) {
     return Field._(
+      key: key,
       controller: controller,
       label: label,
       placeholder: placeholder,
@@ -42,11 +44,13 @@ class Field extends StatelessWidget {
   }
 
   factory Field.password({
+    Key? key,
     required TextEditingController controller,
     String placeholder = 'Enter your password',
     String label = "Password",
   }) {
     return Field._(
+      key: key,
       controller: controller,
       label: label,
       placeholder: placeholder,
