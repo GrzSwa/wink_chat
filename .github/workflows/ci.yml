@@ -35,12 +35,22 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Krok 4: Uruchomienie analizy statycznej kodu
+      # Krok 4: Konfiguracja Firebase
+      # Instalacja Firebase CLI i FlutterFire CLI, a następnie generowanie pliku firebase_options.dart
+      - name: Configure Firebase
+        run: |
+          npm install -g firebase-tools
+          dart pub global activate flutterfire_cli
+          flutterfire configure --project=YOUR_FIREBASE_PROJECT_ID --out=lib/firebase_options.dart --yes --platforms=android,ios,web
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+      # Krok 5: Uruchomienie analizy statycznej kodu
       # Sprawdza kod pod kątem potencjalnych błędów i niezgodności ze style guide
       - name: Analyze project
         run: flutter analyze
 
-      # Krok 5: Uruchomienie testów jednostkowych i widgetowych
+      # Krok 6: Uruchomienie testów jednostkowych i widgetowych
       # To jest główny krok weryfikujący poprawność działania aplikacji
       - name: Run tests
         run: flutter test
