@@ -4,6 +4,10 @@
 
 WinkChat is a Minimum Viable Product (MVP) mobile application designed to facilitate human connections based on personality and conversation, rather than physical appearance. The app aims to break communication barriers, reduce the fear of rejection, and combat loneliness by enabling anonymous text-based chat with users located in defined administrative geographical areas (e.g., voivodeship, city, country). It focuses on a simple, text-based interaction flow to validate the core product hypothesis.
 
+## Demo
+
+![Demo aplikacji WinkChat](assets/gifs/demo.gif)
+
 ## Tech Stack
 
 **Frontend (Mobile Application):**
