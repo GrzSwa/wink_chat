@@ -1,0 +1,46 @@
+name: Flutter CI
+
+# Wyzwalacze (Triggers)
+# Ten workflow będzie uruchamiany:
+# 1. Przy każdym pushu do gałęzi 'main'
+# 2. Ręcznie, poprzez interfejs GitHub Actions (workflow_dispatch)
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  # Definiujemy jedno zadanie (job) o nazwie 'test'
+  test:
+    # Określamy system operacyjny, na którym zadanie będzie uruchamiane
+    runs-on: ubuntu-latest
+
+    # Kroki (steps) do wykonania w ramach zadania
+    steps:
+      # Krok 1: Pobranie kodu źródłowego repozytorium
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Krok 2: Konfiguracja środowiska Flutter
+      # Używamy gotowej akcji do instalacji i konfiguracji Fluttera
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.29.3" # Wersja Fluttera zgodna z Twoim projektem
+          channel: "stable"
+          cache: true # Włączenie cache'owania zależności Fluttera, aby przyspieszyć kolejne buildy
+
+      # Krok 3: Instalacja zależności projektu Dart
+      # Odpowiednik `flutter pub get`
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Krok 4: Uruchomienie analizy statycznej kodu
+      # Sprawdza kod pod kątem potencjalnych błędów i niezgodności ze style guide
+      - name: Analyze project
+        run: flutter analyze
+
+      # Krok 5: Uruchomienie testów jednostkowych i widgetowych
+      # To jest główny krok weryfikujący poprawność działania aplikacji
+      - name: Run tests
+        run: flutter test
