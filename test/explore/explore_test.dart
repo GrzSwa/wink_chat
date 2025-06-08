@@ -6,7 +6,6 @@ import 'package:wink_chat/src/common/providers/auth_state_provider.dart';
 import 'package:wink_chat/src/features/account/domain/user.dart'
     as account_user;
 import 'package:wink_chat/src/features/account/providers/user_provider.dart';
-import 'package:wink_chat/src/features/explore/data/repositories/explore_repository.dart';
 import 'package:wink_chat/src/features/explore/domain/models/explore_user.dart';
 import 'package:wink_chat/src/features/explore/presentation/providers/explore_provider.dart';
 
@@ -32,7 +31,7 @@ void main() {
       uid: 'currentUserId',
       pseudonim: 'CurrentUser',
       gender: 'F',
-      location: account_user.UserLocation(
+      location: const account_user.UserLocation(
         value: testLocation,
         type: 'voivodeship',
       ),

@@ -20,7 +20,7 @@ final exploreUsersProvider = StreamProvider<List<ExploreUser>>((ref) {
   }
 
   final user = ref.watch(userStreamProvider).value;
-  final locationValue = user?.location?.value;
+  final locationValue = user?.location.value;
 
   if (locationValue == null || locationValue.isEmpty) {
     return Stream.value([]);
