@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:wink_chat/src/common/widgets/app_images.dart';
 
 class ImagesGrid extends StatelessWidget {
-  const ImagesGrid({Key? key}) : super(key: key);
+  const ImagesGrid({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
+    return const AspectRatio(
       aspectRatio: 1.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

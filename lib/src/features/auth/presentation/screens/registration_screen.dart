@@ -80,6 +80,9 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
             gender: _selectedGender,
             location: {'type': locationType, 'value': _selectedLocationValue!},
           );
+
+          if (!mounted) return;
+
           _navigateToLogin(context);
         }
       }
@@ -100,7 +103,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: AppLogo(width: 120, isDark: false),
+        title: const AppLogo(width: 120, isDark: false),
         centerTitle: true,
         backgroundColor: Colors.white,
       ),

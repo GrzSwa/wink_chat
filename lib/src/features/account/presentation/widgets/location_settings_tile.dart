@@ -103,9 +103,9 @@ class LocationSettingsTile extends ConsumerWidget {
             ),
           ),
       error:
-          (_, __) => ListTile(
-            leading: const Icon(Icons.error),
-            title: const Text('Nie udało się załadować lokalizacji'),
+          (_, __) => const ListTile(
+            leading: Icon(Icons.error),
+            title: Text('Nie udało się załadować lokalizacji'),
             textColor: Colors.red,
           ),
     );

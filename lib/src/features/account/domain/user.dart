@@ -42,7 +42,7 @@ class User extends Equatable {
     final data = doc.data() as Map<String, dynamic>;
 
     // Bezpieczna konwersja timestampów
-    DateTime _safeTimestamp(dynamic timestamp) {
+    DateTime safeTimestamp(dynamic timestamp) {
       if (timestamp == null) return DateTime.now();
       if (timestamp is Timestamp) return timestamp.toDate();
       return DateTime.now();
@@ -53,9 +53,9 @@ class User extends Equatable {
       pseudonim: data['pseudonim'] as String,
       gender: data['gender'] as String,
       location: UserLocation.fromMap(data['location'] as Map<String, dynamic>),
-      lastSeen: _safeTimestamp(data['lastSeen']),
-      createdAt: _safeTimestamp(data['createdAt']),
-      updatedAt: _safeTimestamp(data['updatedAt']),
+      lastSeen: safeTimestamp(data['lastSeen']),
+      createdAt: safeTimestamp(data['createdAt']),
+      updatedAt: safeTimestamp(data['updatedAt']),
     );
   }
 

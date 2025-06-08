@@ -23,7 +23,7 @@ class MyApp extends ConsumerWidget {
       title: 'WinkChat',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Color.fromRGBO(222, 103, 108, 1),
+          seedColor: const Color.fromRGBO(222, 103, 108, 1),
         ),
       ),
       home: authState.when(

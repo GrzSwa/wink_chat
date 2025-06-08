@@ -14,7 +14,7 @@ class Field extends StatelessWidget {
   final Function(String)? onDropdownChanged;
 
   const Field._({
-    Key? key,
+    super.key,
     required this.controller,
     this.label,
     required this.placeholder,
@@ -26,7 +26,7 @@ class Field extends StatelessWidget {
     this.dropdownOptions,
     this.selectedDropdownValue,
     this.onDropdownChanged,
-  }) : super(key: key);
+  });
 
   factory Field.email({
     Key? key,

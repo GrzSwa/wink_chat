@@ -140,7 +140,7 @@ class PendingChatRequests extends ConsumerWidget {
                 );
               },
             );
-          }).toList(),
+          }),
         ],
       ),
     );

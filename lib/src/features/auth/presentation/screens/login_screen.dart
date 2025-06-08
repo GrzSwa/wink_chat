@@ -49,6 +49,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             password: _passwordController.text,
           );
 
+      if (!mounted) return;
+
       if (!result.hasError) {
         _navigateToMainApp(context);
       }
@@ -62,7 +64,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: AppLogo(width: 120, isDark: false),
+        title: const AppLogo(width: 120, isDark: false),
         centerTitle: true,
         backgroundColor: Colors.white,
       ),

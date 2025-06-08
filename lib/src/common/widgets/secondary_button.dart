@@ -8,13 +8,13 @@ class SecondaryButton extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
 
   const SecondaryButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.child,
     this.width,
     this.height,
     this.padding,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

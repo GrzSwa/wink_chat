@@ -8,13 +8,13 @@ class PrimaryButton extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
 
   const PrimaryButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.child,
     this.width,
     this.height,
     this.padding,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

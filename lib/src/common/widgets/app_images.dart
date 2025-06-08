@@ -18,12 +18,12 @@ class AppImages extends StatelessWidget {
   final BoxFit? fit;
 
   const AppImages({
-    Key? key,
+    super.key,
     this.imagesNumber = 0,
     this.width,
     this.height,
     this.fit,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -26,24 +26,24 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: AppLogo(width: 200, isDark: false),
+        title: const AppLogo(width: 200, isDark: false),
         centerTitle: true,
         backgroundColor: Colors.white,
       ),
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 25),
+          padding: const EdgeInsets.symmetric(horizontal: 25),
           color: Colors.white,
           child: Column(
             children: [
-              Expanded(flex: 2, child: Center(child: ImagesGrid())),
-              SizedBox(height: 30),
+              const Expanded(flex: 2, child: Center(child: ImagesGrid())),
+              const SizedBox(height: 30),
               Expanded(
                 flex: 3,
                 child: Center(
                   child: Column(
                     children: [
-                      Text(
+                      const Text(
                         "Witaj w WinkChat",
                         style: TextStyle(
                           fontSize: 32,
@@ -52,7 +52,7 @@ class WelcomeScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                         textScaler: TextScaler.linear(1.0),
                       ),
-                      Text(
+                      const Text(
                         "Łącz sie przez rozmowy, a nie pozory.",
                         style: TextStyle(
                           fontSize: 18,
@@ -62,7 +62,7 @@ class WelcomeScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                         textScaler: TextScaler.linear(1.0),
                       ),
-                      Text(
+                      const Text(
                         "Znajdź prawdziwych ludzi w pobliżu i zacznij rozmawiać.",
                         style: TextStyle(
                           fontSize: 18,
@@ -72,7 +72,7 @@ class WelcomeScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                         textScaler: TextScaler.linear(1.0),
                       ),
-                      SizedBox(height: 50),
+                      const SizedBox(height: 50),
                       Expanded(
                         child: Column(
                           spacing: 18,
@@ -80,7 +80,7 @@ class WelcomeScreen extends StatelessWidget {
                             PrimaryButton(
                               onPressed: () => _navigateToRegistration(context),
                               width: double.infinity,
-                              child: Text(
+                              child: const Text(
                                 "Rozpocznij",
                                 style: TextStyle(fontSize: 18),
                               ),
@@ -88,7 +88,7 @@ class WelcomeScreen extends StatelessWidget {
                             SecondaryButton(
                               onPressed: () => _navigateToLogin(context),
                               width: double.infinity,
-                              child: Text(
+                              child: const Text(
                                 "Zaloguj się",
                                 style: TextStyle(fontSize: 18),
                               ),
@@ -96,7 +96,7 @@ class WelcomeScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Expanded(child: Footer()),
+                      const Expanded(child: Footer()),
                     ],
                   ),
                 ),

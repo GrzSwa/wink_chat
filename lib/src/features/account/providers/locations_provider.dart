@@ -21,7 +21,8 @@ final locationTypeProvider = Provider.family<String, String>((
   locationValue,
 ) {
   final locationsList = ref.watch(locationsListProvider).value;
-  if (locationsList == null)
+  if (locationsList == null) {
     throw Exception('Lokalizacje nie zostały załadowane');
+  }
   return locationsList.getLocationType(locationValue);
 });
