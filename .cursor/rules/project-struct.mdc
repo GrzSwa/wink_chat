@@ -51,9 +51,18 @@ lib/
 │   ├── common/            # Współdzielone komponenty
 │   ├── models/            # Globalne modele danych
 │   └── services/          # Globalne serwisy
+test/
+├── account/
+├── auth/
+├── explore/
+│ └── explore_test.dart
+├── mocks.dart
+└── mocks.mocks.dart
 ```
 
 Każdy katalog funkcjonalności (`account`, `auth`, `explore`, `user`, `user_chats`) zawiera standardową strukturę z podziałem na warstwy:
 - `data/` - implementacje repozytoriów i źródeł danych
 - `domain/` - modele i logika biznesowa
 - `presentation/` - widoki i komponenty UI
+
+Katalog zawierający testy zawiera strukturę która jest zorganizowana według funkcjonalności. Każdy moduł (`feature`) ma swój dedykowany podkatalog (np. `auth`, `explore`). Wewnątrz tych katalogów, pliki testowe mają nazwy opisujące testowany scenariusz. Taka płaska struktura unika dodatkowych zagnieżdżeń wewnątrz katalogów testowych.

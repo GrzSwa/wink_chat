@@ -18,11 +18,14 @@ alwaysApply: true
     -   `flutter_riverpod` ^2.6.1: Integracja Riverpod z Flutterem
     -   `equatable` ^2.0.7: Biblioteka do porównywania obiektów
     -   `flutter_dotenv` ^5.2.1: Zarządzanie zmiennymi środowiskowymi
+    -   `font_awesome_flutter` ^10.8.0: Ikony FontAwesome
     -   `cupertino_icons` ^1.0.8: Ikony iOS style
 -   Narzędzia Testowe:
     -   `flutter_test`: Framework do testów jednostkowych i widgetów
     -   `integration_test`: Pakiet do testów integracyjnych
     -   `flutter_driver`: Narzędzie do testów E2E
+    -   `mockito`: Biblioteka do tworzenia mocków
+    -   `fake_cloud_firestore`: Mock bazy danych Firestore do testów
     -   Firebase Test Lab: Infrastruktura do testów w chmurze
 
 #### Backend

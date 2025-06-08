@@ -11,15 +11,22 @@ WinkChat is a Minimum Viable Product (MVP) mobile application designed to facili
 - **Framework:** Flutter 3.29.3
 - **Programming Language:** Dart 3.7.2
 - **Key Libraries/Packages:**
-  - `firebase_core` ^3.13.0: Core Firebase plugin for Flutter
-  - `dio` 5.8.0: HTTP client package
-  - `riverpod` 2.6.1: State management and dependency injection framework
-  - `cupertino_icons` ^1.0.8
-  - `equatable` ^2.0.7
+  - `firebase_core: ^2.32.0`: Core Firebase plugin for Flutter
+  - `firebase_auth: ^4.17.5`: Firebase Auth plugin for Flutter
+  - `cloud_firestore: ^4.15.5`: Firestore plugin for Flutter
+  - `dio: ^5.8.0+1`: A powerful HTTP client for Dart
+  - `riverpod: ^2.6.1`: A simple state-management library
+  - `flutter_riverpod: ^2.6.1`: Riverpod integration for Flutter
+  - `equatable: ^2.0.7`: A library to compare objects
+  - `flutter_dotenv: ^5.2.1`: For managing environment variables
+  - `font_awesome_flutter: ^10.8.0`: The official Font Awesome icon pack
+  - `cupertino_icons: ^1.0.8`: iOS-style icons
 - **Testing Tools:**
   - `flutter_test`: Core testing framework for unit and widget tests
   - `integration_test`: Package for integration testing
   - `flutter_driver`: Tool for end-to-end testing
+  - `mockito`: A popular mocking library.
+  - `fake_cloud_firestore`: A library to create a fake in-memory Firestore instance for testing.
   - Firebase Test Lab: Cloud-based app testing infrastructure
 
 **Backend:**
