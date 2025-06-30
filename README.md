@@ -8,6 +8,17 @@ WinkChat is a Minimum Viable Product (MVP) mobile application designed to facili
 
 ![Demo aplikacji WinkChat](assets/gifs/demo.gif)
 
+## Download (Android APK)
+
+You can download the latest WinkChat Android release (.apk) directly from the GitHub **Releases** page:
+
+https://github.com/GrzSwa/wink_chat/releases
+
+1. Download the APK file (for example, `winkchat-v0.1.0-alpha.apk`).
+2. Transfer it to your Android device or download it directly on the device.
+3. When prompted, enable installation from unknown sources.
+4. Open the APK and follow the on-screen instructions to install WinkChat.
+
 ## Tech Stack
 
 **Frontend (Mobile Application):**
